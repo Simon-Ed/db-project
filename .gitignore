@@ -1,0 +1,5 @@
+venv
+venv/*
+
+# File in Simon's repo
+stuff.py
