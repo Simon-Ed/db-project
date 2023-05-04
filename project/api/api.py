@@ -2,15 +2,6 @@ import http
 from flask import Flask, jsonify
 import pymysql.cursors
 
-# Database configuration
-adminConfig = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'db': 'project_db',
-    'charset': 'utf8mb4',
-    'cursorclass': pymysql.cursors.DictCursor
-}
 
 publicConfig = {
     'host': 'localhost',
@@ -40,7 +31,7 @@ def init_app(app: Flask):
     def get_teachers():
         return jsonify({'message': 'teachers endpoint'}), http.HTTPStatus.OK
 
-    @app.route('/test', methods=['GET'])
+    @app.route('/admin/test', methods=['GET'])
     def test_user_permissions():
         with publicConnection.cursor() as cursor:
             # query = "SELECT * FROM course;"
