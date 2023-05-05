@@ -5,7 +5,7 @@ import pymysql.cursors
 # Database configuration
 adminConfig = {
     'host': 'localhost',
-    'user': 'root',
+    'user': 'admin',
     'password': '',
     'db': 'project_db',
     'charset': 'utf8mb4',
@@ -22,10 +22,21 @@ publicConfig = {
     'cursorclass': pymysql.cursors.DictCursor
 }
 
+studentConfig = {
+    'host': 'localhost',
+    # 'user': 'root',
+    'user': 'Student',
+    'password': '',
+    'db': 'project_db',
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor
+}
+
+adminConncetion = pymysql.connect(**adminConfig)
 publicConnection = pymysql.connect(**publicConfig)
+studentConnceetion = pymysql.connect(**studentConfig)
 
 # Method contain API endpoints
-
 
 def init_app(app: Flask):
     @app.route('/courses', methods=['GET'])
