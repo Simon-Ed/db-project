@@ -32,12 +32,11 @@ studentConfig = {
     'cursorclass': pymysql.cursors.DictCursor
 }
 
-adminConncetion = pymysql.connect(**adminConfig)
+adminConnection = pymysql.connect(**adminConfig)
 publicConnection = pymysql.connect(**publicConfig)
-studentConnceetion = pymysql.connect(**studentConfig)
+studentConnection = pymysql.connect(**studentConfig)
 
 # Method contain API endpoints
-
 def init_app(app: Flask):
     @app.route('/courses', methods=['GET'])
     def get_courses():
@@ -52,13 +51,47 @@ def init_app(app: Flask):
         return jsonify({'message': 'teachers endpoint'}), http.HTTPStatus.OK
 
     @app.route('/test', methods=['GET'])
-    def test_user_permissions():
+    def test_user_permissions_SELECT():                                                    #
         with publicConnection.cursor() as cursor:
             # query = "SELECT * FROM course;"
             query = "INSERT INTO institute (institute ,faculty) VALUES ('sa', 'b');"
             cursor.execute(query)
             # https://stackoverflow.com/questions/6027271/python-mysql-insert-not-working
             publicConnection.commit()
+            data = cursor.fetchall()
+            response = jsonify(data)
+        return response
+
+    @app.route('/test', methods=['GET'])
+    def test_USER_permissions_BOOKROOM():                                                   #Is supposed to fail, because general public can not book rooms.
+        with publicConnection.cursor() as cursor:
+            # query = "SELECT * FROM course;"
+            query = "INSERT INTO institute (institute ,faculty) VALUES ('sa', 'b');"
+            cursor.execute(query)
+            # https://stackoverflow.com/questions/6027271/python-mysql-insert-not-working
+            publicConnection.commit()
+            data = cursor.fetchall()
+            response = jsonify(data)
+        return response
+
+
+    @app.route('/test', methods=['GET'])
+    def test_ADMIN_permissions():
+        with adminConnection.cursor() as adminCursor:
+            #query = ----
+            cursor.execute(query)
+            adminConnection.commit()
+            data = cursor.fetchall()
+            response = jsonify(data)
+        return response
+
+
+    @app.route('/test', methods=['GET'])
+    def test_STUDENT_permissions():
+        with studentConnection.cursor() as studentCursor:
+            #query = ----
+            cursor.execute(query)
+            studentConnection.commit()
             data = cursor.fetchall()
             response = jsonify(data)
         return response
