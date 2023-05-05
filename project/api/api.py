@@ -51,7 +51,7 @@ def init_app(app: Flask):
         return jsonify({'message': 'teachers endpoint'}), http.HTTPStatus.OK
 
     @app.route('/test', methods=['GET'])
-    def test_user_permissions_SELECT():                                                    #
+    def test_user_permissions_SELECT():                                                     #This will work because the general public is able to see information
         with publicConnection.cursor() as cursor:
             # query = "SELECT * FROM course;"
             query = "INSERT INTO institute (institute ,faculty) VALUES ('sa', 'b');"
@@ -76,7 +76,7 @@ def init_app(app: Flask):
 
 
     @app.route('/test', methods=['GET'])
-    def test_ADMIN_permissions():
+    def test_ADMIN_permissions_BOOKROOM():                                                 #Is supposed to worked because the admin is able to edit the db.
         with adminConnection.cursor() as adminCursor:
             #query = ----
             cursor.execute(query)
