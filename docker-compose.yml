@@ -1,9 +1,19 @@
-version: '3.11'
-
 services:
-  application:
-    container_name: db-project
-    build: .
-    restart: always
+  pythonapp:
+    build: 
+      context: ./api/
+      dockerfile: Dockerfile
+    command: sh -c "sleep 10s ; python3 ./main.py"
+    depends_on:
+      - mysql
     ports:
-      - 5000:5000
+      - '5000:5000'
+
+  mysql:
+    build: ./database/
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
