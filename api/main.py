@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from endpoints.courses import *
 from endpoints.rooms import *
 #from endpoints.teachers import get_teachers_nrOfcourses_eachSem_sotredBynr
@@ -36,6 +36,30 @@ def teachers_endpoint():
     teachers = get_courses_task1()
 
     return jsonify(teachers)
+
+# add course to time schedule 
+@app.route('/add-to-schedule')
+def add_course_to_time_schedule():
+    user = request.args.get('user', default='', type=int)
+    course = request.args.get('course', default='', type=int)
+    with rootConnection.cursor() as cursor:
+        query = "INSERT INTO user_schedule( user_schedule.user_id, user_schedule.course_id) VALUES(%s, %s);"
+        cursor.execute(query, (user,course,))
+        rootConnection.commit()
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response
+
+# view personal time schedule 
+@app.route('/view-schedule')
+def view_time_schedule():
+    user = request.args.get('user', default='', type=int)
+    with rootConnection.cursor() as cursor:
+        query = "SELECT * FROM user_time_schedule WHERE user_time_schedule.user_id=%s;" 
+        cursor.execute(query, (user,))
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response
 
 
 if __name__ == '__main__':
