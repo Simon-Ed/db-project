@@ -68,7 +68,7 @@ def get_courses_task7():
 # 12. Show a list of all teachers and the courses, they teach, including the room number and building
 # name where each course is held.
 def get_courses_task12():
-    query = "SELECT university_member.name AS firstName, university_member.surname, course_semester.name, COUNT(course.id) AS num_courses, course_semester.semester FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN course_semester ON course.id = course_semester.course_id GROUP BY university_member.id, course_semester.semester ORDER BY `num_courses` DESC;"
+    query = "SELECT CONCAT(university_member.name,' ' , university_member.surname) AS name, MAX(course_semester.name), COUNT(course.id) AS num_courses, course_semester.semester FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN course_semester ON course.id = course_semester.course_id GROUP BY university_member.id, course_semester.semester ORDER BY num_courses DESC, course_semester.semester;"
     return jsonify(queryExec(query))
 
 
@@ -97,7 +97,7 @@ def get_courses_task15():
 # 16. Show a list of all teachers and the average number of students in the courses they teach,
 # sorted by the average number of students
 def get_courses_task16():
-    query = "SELECT university_member.name, AVG(course.number_of_students) AS average_number_of_students FROM course INNER JOIN university_member ON university_member.id = course.teacher_id GROUP BY university_member.name ORDER BY average_number_of_students ASC;"
+    query = "SELECT university_member.name AS firstName, university_member.surname, MIN(course_semester.name) AS course_name, COUNT(course.id) AS num_courses, course_semester.semester FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN course_semester ON course.id = course_semester.course_id GROUP BY university_member.id, course_semester.semester ORDER BY num_courses DESC;"
     
     return jsonify(queryExec(query))
 
