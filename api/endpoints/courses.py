@@ -97,7 +97,7 @@ def get_courses_task15():
 # 16. Show a list of all teachers and the average number of students in the courses they teach,
 # sorted by the average number of students
 def get_courses_task16():
-    query = "SELECT university_member.name, AVG(course.number_of_students) AS average_number_of_students FROM course INNER JOIN university_member ON university_member.id = course.university_member GROUP BY university_member.name ORDER BY average_number_of_students ASC; "
+    query = "SELECT university_member.name, AVG(course.number_of_students) AS average_number_of_students FROM course INNER JOIN university_member ON university_member.id = course.teacher_id GROUP BY university_member.name ORDER BY average_number_of_students ASC;"
     
     return jsonify(queryExec(query))
 
