@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from endpoints.courses import *
-#from endpoints.rooms import get_rooms_available_givendate_timerange
+from endpoints.rooms import *
 #from endpoints.teachers import get_teachers_nrOfcourses_eachSem_sotredBynr
 
 app = Flask(__name__)
@@ -15,7 +15,9 @@ def query_test_endpoint(endpoint):
         4: get_courses_task4,
         5: get_courses_task5,
         6: get_courses_task6,
-        7: get_courses_task7
+        7: get_courses_task7,
+        8: get_rooms_task8,
+        9: get_rooms_task9
     }
     return tasks.get(endpoint, lambda: None)()
 
