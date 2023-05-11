@@ -13,7 +13,12 @@ def query_test_endpoint(endpoint):
         2: lambda: None,  # Replace None with the appropriate function for endpoint 2
         3: get_courses_task3,
         4: get_courses_task4,
-        5: get_courses_task5
+        5: get_courses_task5,
+        12: lambda: get_courses_task12,
+        13: get_courses_task13,
+        14: get_courses_task14,
+        15: get_courses_task15,
+        16: get_courses_task16
     }
     return tasks.get(endpoint, lambda: None)()
 
