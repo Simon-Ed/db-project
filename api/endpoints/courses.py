@@ -54,34 +54,18 @@ def get_courses_task5():
 
 # 6. Show a list of all courses taught by a specific teacher, along with the institute and faculty where each course
 # belongs.
-def get_course_specific_teacher_institue_faculty():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT course.*, institue.* " \
-                "FROM teacher " \
-                "LEFT JOIN institute ON institute.institute = teacher.institute " \
-                "LEFT JOIN course ON course.teacher_id = teacher.personal_id " \
-                "WHERE teacher.personal_id = 8901234567"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_courses_task6():
+    query = "SELECT course.code, course.name, CONCAT(university_member.name, ' ', university_member.surname) AS name, institute.institute, institute.faculty FROM teacher LEFT JOIN institute ON institute.institute = teacher.institute LEFT JOIN course ON course.teacher_id = teacher.university_member LEFT JOIN university_member ON university_member.id = teacher.university_member WHERE university_member.name = 'Robert' AND university_member.surname='Johnson'"
+
+    return jsonify(queryExec(query))
 
 
 # 7.Show a list of all courses taught by a specific lecturer, along with the room number and building name where each
 # course is held.
-def get_course_specific_teacher_roomnr_buildingname():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT course.*, room.room_number, room.building_name " \
-                "FROM teacher " \
-                "LEFT JOIN course ON course.teacher_id = teacher.personal_id " \
-                "LEFT JOIN lecture ON lecture.course_id = course.course_id " \
-                "LEFT JOIN room_booking ON lecture.booking_id =room_booking.booking.id " \
-                "LEFT JOIN room ON room_booking.room.id = room.room_id " \
-                "WHERE teacher.personal_id = 8901234567"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_courses_task7():
+    query = "SELECT course.code, course.name, CONCAT(university_member.name, ' ', university_member.surname) AS name, room.room_number, building.building_name FROM teacher LEFT JOIN university_member ON university_member.id = teacher.university_member LEFT JOIN course ON course.teacher_id = teacher.university_member LEFT JOIN lecture ON lecture.course_id = course.id LEFT JOIN room_booking ON lecture.booking_id =room_booking.id LEFT JOIN room ON room_booking.room_id = room.id LEFT JOIN building ON room.building_id = building.id WHERE university_member.name = 'Robert' AND university_member.surname='Johnson'"
+
+    return jsonify(queryExec(query))
 
 # 12. Show a list of all teachers and the courses, they teach, including the room number and building
 # name where each course is held.

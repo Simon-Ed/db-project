@@ -2,12 +2,11 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 11, 2023 at 01:32 PM
+-- Host: localhost
+-- Generation Time: May 11, 2023 at 08:33 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
-USE db
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -19,8 +18,42 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_db2`
+-- Database: `project_db7`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `bookable_rooms`
+-- (See below for the actual view)
+--
+CREATE TABLE `bookable_rooms` (
+`id` int(11)
+,`building_id` int(11)
+,`room_number` varchar(50)
+,`room_type` varchar(50)
+,`room_size` int(11)
+,`floor_level` int(11)
+,`bookable` tinyint(1)
+,`location` varchar(255)
+,`building_name` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `booked_rooms`
+-- (See below for the actual view)
+--
+CREATE TABLE `booked_rooms` (
+`id` int(11)
+,`room_number` varchar(50)
+,`floor_level` int(11)
+,`location` varchar(255)
+,`building_name` varchar(255)
+,`start_time` datetime
+,`end_time` datetime
+);
 
 -- --------------------------------------------------------
 
@@ -51,14 +84,14 @@ INSERT INTO `building` (`id`, `location`, `building_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contact_info`
+-- Stand-in structure for view `contact_info`
+-- (See below for the actual view)
 --
-
 CREATE TABLE `contact_info` (
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(8) NOT NULL,
-  `university_member` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+`email` varchar(255)
+,`phone` varchar(8)
+,`university_member` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -82,27 +115,27 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, `start_date`, `end_date`) VALUES
 (1, 'IT2201', 'Database Systems', 50, 11, '2023-09-01', '2023-12-15'),
-(2, 'TDT4102', 'Object-Oriented Programming', 60, NULL, '2023-09-01', '2023-12-15'),
+(2, 'TDT4102', 'Object-Oriented Programming', 60, 12, '2023-09-01', '2023-12-15'),
 (3, 'MAT1100', 'Calculus', 70, 13, '2023-09-01', '2023-12-15'),
 (4, 'DAT320', 'Data Management and Database Systems', 40, 11, '2023-09-01', '2023-12-15'),
 (5, 'TDT4140', 'Software Engineering', 55, 12, '2023-09-01', '2023-12-15'),
 (6, 'MAT1110', 'Linear Algebra', 60, 13, '2023-09-01', '2023-12-15'),
 (7, 'TDT4165', 'Programming Languages', 45, 12, '2023-09-01', '2023-12-15'),
 (8, 'IT2805', 'Web Technologies', 50, 11, '2023-09-01', '2023-12-15'),
-(9, 'MAT1120', 'Discrete Mathematics', 65, NULL, '2023-09-01', '2023-12-15'),
+(9, 'MAT1120', 'Discrete Mathematics', 65, 13, '2023-09-01', '2023-12-15'),
 (10, 'TDT4173', 'Machine Learning', 40, 11, '2023-09-01', '2023-12-15'),
-(11, 'ELE1100', 'Introduction to Electronics', 55, NULL, '2023-09-01', '2023-12-15'),
+(11, 'ELE1100', 'Introduction to Electronics', 55, 12, '2023-09-01', '2023-12-15'),
 (12, 'BIO1000', 'Introduction to Biology', 70, 13, '2023-09-01', '2023-12-15'),
 (13, 'TDT4180', 'Artificial Intelligence', 45, 11, '2023-09-01', '2023-12-15'),
 (14, 'PHYS1110', 'Classical Mechanics', 60, 12, '2023-09-01', '2023-12-15'),
 (15, 'TMA4100', 'Calculus 1', 75, 13, '2023-09-01', '2023-12-15'),
 (16, 'TDT4195', 'Data Science', 40, 11, '2023-09-01', '2023-12-15'),
-(17, 'STAT1101', 'Introduction to Statistics', 55, NULL, '2023-09-01', '2023-12-15'),
+(17, 'STAT1101', 'Introduction to Statistics', 55, 12, '2023-09-01', '2023-12-15'),
 (18, 'TDT4200', 'Parallel Computing', 50, 13, '2023-09-01', '2023-12-15'),
 (19, 'PSY1010', 'Introduction to Psychology', 65, 11, '2023-09-01', '2023-12-15'),
 (20, 'MEC2200', 'Mechanics and Materials', 70, 12, '2023-09-01', '2023-12-15'),
 (21, 'TDT4300', 'Software Architecture', 45, 12, '2023-01-01', '2023-05-31'),
-(22, 'INF2200', 'Algorithms and Data Structures', 60, NULL, '2023-01-01', '2023-05-31'),
+(22, 'INF2200', 'Algorithms and Data Structures', 60, 11, '2023-01-01', '2023-05-31'),
 (23, 'MAT2300', 'Probability Theory', 55, 13, '2023-01-01', '2023-05-31'),
 (24, 'TDT4145', 'Data Modeling, Databases and Database Management Systems', 40, 11, '2023-01-01', '2023-05-31'),
 (25, 'MAT2310', 'Mathematical Statistics', 65, 13, '2023-01-01', '2023-05-31'),
@@ -139,6 +172,49 @@ INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, 
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `course_schedules`
+-- (See below for the actual view)
+--
+CREATE TABLE `course_schedules` (
+`id` int(11)
+,`name` varchar(255)
+,`start_time` datetime
+,`end_time` datetime
+,`room_number` varchar(50)
+,`floor_level` int(11)
+,`location` varchar(255)
+,`building_name` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `course_semester`
+-- (See below for the actual view)
+--
+CREATE TABLE `course_semester` (
+`course_id` int(11)
+,`code` varchar(20)
+,`name` varchar(255)
+,`start_date` date
+,`end_date` date
+,`semester` varchar(33)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email`
+--
+
+CREATE TABLE `email` (
+  `email` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `institute`
 --
 
@@ -159,7 +235,8 @@ INSERT INTO `institute` (`institute`, `faculty`) VALUES
 ('Department of History', 'Faculty of Humanities'),
 ('Department of Law', 'Faculty of Social and Educational Sciences'),
 ('Department of Mathematics', 'Faculty of Natural Sciences and Technology'),
-('Department of Physics', 'Faculty of Science and Technology');
+('Department of Physics', 'Faculty of Science and Technology'),
+('Institute', 'Faculty');
 
 -- --------------------------------------------------------
 
@@ -208,6 +285,17 @@ INSERT INTO `lecture` (`course_id`, `booking_id`, `activity`) VALUES
 (13, 25, 'Practice'),
 (14, 26, 'Lecture'),
 (15, 27, 'Practice');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phone`
+--
+
+CREATE TABLE `phone` (
+  `phone` varchar(8) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -339,13 +427,21 @@ INSERT INTO `room_booking` (`id`, `start_time`, `end_time`, `type`, `room_id`, `
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `semester_name`
+-- Stand-in structure for view `staff_contact`
 -- (See below for the actual view)
 --
-CREATE TABLE `semester_name` (
-`start_date` date
-,`end_date` date
-,`semester` varchar(33)
+CREATE TABLE `staff_contact` (
+`university_id` int(11)
+,`title` varchar(50)
+,`name` varchar(50)
+,`surname` varchar(50)
+,`room_id` int(11)
+,`room_number` varchar(50)
+,`floor_level` int(11)
+,`location` varchar(255)
+,`building_name` varchar(255)
+,`email` varchar(255)
+,`phone` varchar(8)
 );
 
 -- --------------------------------------------------------
@@ -453,7 +549,6 @@ CREATE TABLE `user_schedule` (
 
 INSERT INTO `user_schedule` (`user_id`, `course_id`) VALUES
 (1, 1),
-(1, 2),
 (2, 3),
 (2, 4),
 (3, 5),
@@ -466,11 +561,84 @@ INSERT INTO `user_schedule` (`user_id`, `course_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure for view `semester_name`
+-- Stand-in structure for view `user_time_schedule`
+-- (See below for the actual view)
 --
-DROP TABLE IF EXISTS `semester_name`;
+CREATE TABLE `user_time_schedule` (
+`user_id` int(11)
+,`course_id` int(11)
+,`code` varchar(20)
+,`name` varchar(255)
+,`activity` varchar(255)
+,`start_time` datetime
+,`end_time` datetime
+,`room_number` varchar(50)
+,`location` varchar(255)
+,`building_name` varchar(255)
+);
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `semester_name`  AS SELECT `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`  ;
+-- --------------------------------------------------------
+
+--
+-- Structure for view `bookable_rooms`
+--
+DROP TABLE IF EXISTS `bookable_rooms`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookable_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`building_id` AS `building_id`, `room`.`room_number` AS `room_number`, `room`.`room_type` AS `room_type`, `room`.`room_size` AS `room_size`, `room`.`floor_level` AS `floor_level`, `room`.`bookable` AS `bookable`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM (`room` left join `building` on(`room`.`building_id` = `building`.`id`)) WHERE `room`.`bookable` = 1111  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `booked_rooms`
+--
+DROP TABLE IF EXISTS `booked_rooms`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `booked_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time` FROM ((`room_booking` left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `contact_info`
+--
+DROP TABLE IF EXISTS `contact_info`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contact_info`  AS SELECT `email`.`email` AS `email`, `phone`.`phone` AS `phone`, `university_member`.`id` AS `university_member` FROM ((`university_member` left join `email` on(`university_member`.`id` = `email`.`user_id`)) left join `phone` on(`university_member`.`id` = `phone`.`user_id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `course_schedules`
+--
+DROP TABLE IF EXISTS `course_schedules`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_schedules`  AS SELECT `course`.`id` AS `id`, `course`.`name` AS `name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((`course` left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `course_semester`
+--
+DROP TABLE IF EXISTS `course_semester`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `staff_contact`
+--
+DROP TABLE IF EXISTS `staff_contact`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `staff_contact`  AS SELECT `university_member`.`id` AS `university_id`, `teacher`.`title` AS `title`, `university_member`.`name` AS `name`, `university_member`.`surname` AS `surname`, `room`.`id` AS `room_id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `contact_info`.`email` AS `email`, `contact_info`.`phone` AS `phone` FROM ((((`teacher` left join `room` on(`teacher`.`office` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) left join `university_member` on(`teacher`.`university_member` = `university_member`.`id`)) left join `contact_info` on(`university_member`.`id` = `contact_info`.`university_member`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `user_time_schedule`
+--
+DROP TABLE IF EXISTS `user_time_schedule`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_time_schedule`  AS SELECT `user`.`id` AS `user_id`, `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `lecture`.`activity` AS `activity`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((((`user` left join `user_schedule` on(`user`.`id` = `user_schedule`.`user_id`)) left join `course` on(`user_schedule`.`course_id` = `course`.`id`)) left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) GROUP BY `user`.`id` ORDER BY `room_booking`.`start_time` ASC  ;
 
 --
 -- Indexes for dumped tables
@@ -483,18 +651,18 @@ ALTER TABLE `building`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contact_info`
---
-ALTER TABLE `contact_info`
-  ADD PRIMARY KEY (`email`,`phone`),
-  ADD KEY `university_member` (`university_member`);
-
---
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`id`),
   ADD KEY `teacher_id` (`teacher_id`);
+
+--
+-- Indexes for table `email`
+--
+ALTER TABLE `email`
+  ADD PRIMARY KEY (`email`,`user_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `institute`
@@ -508,6 +676,13 @@ ALTER TABLE `institute`
 ALTER TABLE `lecture`
   ADD KEY `course_id` (`course_id`),
   ADD KEY `booking_id` (`booking_id`);
+
+--
+-- Indexes for table `phone`
+--
+ALTER TABLE `phone`
+  ADD PRIMARY KEY (`phone`,`user_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `room`
@@ -528,7 +703,7 @@ ALTER TABLE `room_booking`
 -- Indexes for table `teacher`
 --
 ALTER TABLE `teacher`
-  ADD KEY `university_member` (`university_member`),
+  ADD PRIMARY KEY (`university_member`) USING BTREE,
   ADD KEY `institute` (`institute`),
   ADD KEY `office` (`office`);
 
@@ -548,8 +723,8 @@ ALTER TABLE `user`
 -- Indexes for table `user_schedule`
 --
 ALTER TABLE `user_schedule`
-  ADD KEY `user_schedule_ibfk_1` (`user_id`),
-  ADD KEY `user_schedule_ibfk_2` (`course_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `course_id` (`course_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -584,16 +759,16 @@ ALTER TABLE `room_booking`
 --
 
 --
--- Constraints for table `contact_info`
---
-ALTER TABLE `contact_info`
-  ADD CONSTRAINT `contact_info_ibfk_1` FOREIGN KEY (`university_member`) REFERENCES `university_member` (`id`);
-
---
 -- Constraints for table `course`
 --
 ALTER TABLE `course`
   ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`university_member`);
+
+--
+-- Constraints for table `email`
+--
+ALTER TABLE `email`
+  ADD CONSTRAINT `email_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `university_member` (`id`);
 
 --
 -- Constraints for table `lecture`
@@ -601,6 +776,12 @@ ALTER TABLE `course`
 ALTER TABLE `lecture`
   ADD CONSTRAINT `lecture_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
   ADD CONSTRAINT `lecture_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `room_booking` (`id`);
+
+--
+-- Constraints for table `phone`
+--
+ALTER TABLE `phone`
+  ADD CONSTRAINT `phone_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `university_member` (`id`);
 
 --
 -- Constraints for table `room`
