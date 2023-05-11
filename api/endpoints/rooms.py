@@ -2,61 +2,43 @@ from flask import jsonify
 
 from db.db_conn import rootConnection
 
+def queryExec(query):
+    cursor = rootConnection.cursor()
+    cursor.execute(query)
+    courses = cursor.fetchall()
+
+    # Map column names to custom field names
+    field_names = [desc[0] for desc in cursor.description]
+    mapped_res = [dict(zip(field_names, course)) for course in courses]
+    
+    return mapped_res
 
 # 8. Show a list of all rooms available for a given date and time range.
-def get_rooms_available_givendate_timerange():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.* " \
-                "FROM room" \
-                "WHERE room.room_id NOT IN (" \
-                "SELECT room.room_id " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room_id = room_booking.id" \
-                "WHERE room_booking.start_time <= '2023-06-08 09:00:00' AND room_booking.end_time >= '2023-06-08 11:00:00')"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task8():
+    query = "SELECT room.*, building.building_name, building.location FROM room LEFT JOIN building ON room.building_id = building.id WHERE room.id NOT IN ( SELECT room.id FROM room LEFT JOIN room_booking ON room.id = room_booking.id WHERE room_booking.start_time <= '2023-06-08 09:00:00' AND room_booking.end_time >= '2023-06-08 11:00:00')"
+
+    return jsonify(queryExec(query))
 
 
 # 9. Show a list of all reservations made by a specific user, along with the room number and building name for each
 # reservation.
-def get_reservations_specificuser_roomnr_buildingname():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.booking.*, room.room_number, room.building_name " \
-                "FROM room_booking " \
-                "INNER JOIN room ON room_booking.room.id = room.room.id " \
-                "INNER JOIN university_member ON booker = university_member.id " \
-                "WHERE university_member.name IN ('John') AND university_member.surname IN ('Doe')"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task9():
+    query = "SELECT CONCAT(university_member.name, ' ', university_member.surname) AS name, room.*, room.room_number, building.building_name FROM room_booking INNER JOIN room ON room_booking.room_id = room.id INNER JOIN building ON room.building_id = building.id INNER JOIN university_member ON booker = university_member.id WHERE university_member.name IN ('John') AND university_member.surname IN ('Doe')"
+
+    return jsonify(queryExec(query))
 
 
 # 10. Show a list of all rooms and the reservations made for each room, including the name of the person who made
 # each reservation
-def get_room_and_reservations_booker():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.*, university_member.name, university_member.surname " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
-                "LEFT JOIN university_member ON booker = university_member.id "
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task10():
+    query = "SELECT room.*, room_booking.*, CONCAT(university_member.name, ' ', university_member.surname) AS name FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id LEFT JOIN university_member ON booker = university_member.id"
+    
+    return jsonify(queryExec(query))
 
 
 # 11. Show a list of all rooms, along with the number and type of reservations made for each room.
-def get_rooms_nrOfreservation_reservationType():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.type, COUNT(*) " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
-                "GROUP BY room.room_id, room_booking.type"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task11():
+    query = "SELECT room.*, room_booking.type, COUNT(*) FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id GROUP BY room.id, room_booking.type"
+    
+    return jsonify(queryExec(query))
 
