@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from endpoints.courses import get_courses_task1, get_courses_task2, get_courses_task3, get_courses_task4
+from endpoints.courses import get_courses_task1, get_courses_task2, get_courses_task3, get_courses_task4, get_courses_task5
 #from endpoints.rooms import get_rooms_available_givendate_timerange
 #from endpoints.teachers import get_teachers_nrOfcourses_eachSem_sotredBynr
 
@@ -23,6 +23,10 @@ def courses_endpoint3():
 @app.route('/courses/4', methods=['GET'])
 def courses_endpoint4():
     return get_courses_task4()
+
+@app.route('/courses/5', methods=['GET'])
+def courses_endpoint5():
+    return get_courses_task5()
 
 
 @app.route('/rooms', methods=['GET'])

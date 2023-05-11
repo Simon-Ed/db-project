@@ -2,20 +2,23 @@ from flask import jsonify
 
 from db.db_conn import rootConnection
 
-
-# Show a list of all courses that have not been assigned a lecturer, along with the room number
-# and building name where each course is held.
-def get_courses_task1():
+def queryExec(query):
     cursor = rootConnection.cursor()
-    query = "SELECT course.name AS course_name, room.room_number, building.building_name FROM course LEFT JOIN teacher ON course.teacher_id = teacher.university_member LEFT JOIN lecture ON course.id = lecture.course_id LEFT JOIN room_booking ON lecture.booking_id = room_booking.id LEFT JOIN room ON room_booking.room_id = room.id LEFT JOIN building ON room.building_id = building.id WHERE course.teacher_id IS NULL;"
     cursor.execute(query)
     courses = cursor.fetchall()
 
     # Map column names to custom field names
     field_names = [desc[0] for desc in cursor.description]
-    mapped_courses = [dict(zip(field_names, course)) for course in courses]
+    mapped_res = [dict(zip(field_names, course)) for course in courses]
+    
+    return mapped_res
 
-    return jsonify(mapped_courses)
+# Show a list of all courses that have not been assigned a lecturer, along with the room number
+# and building name where each course is held.
+def get_courses_task1():
+    query = "SELECT course.name AS course_name, room.room_number, building.building_name FROM course LEFT JOIN teacher ON course.teacher_id = teacher.university_member LEFT JOIN lecture ON course.id = lecture.course_id LEFT JOIN room_booking ON lecture.booking_id = room_booking.id LEFT JOIN room ON room_booking.room_id = room.id LEFT JOIN building ON room.building_id = building.id WHERE course.teacher_id IS NULL;"
+    
+    return jsonify(queryExec(query))
 
 
 #2. Show a list of all courses taught by a specific teacher in a given semester.
@@ -30,40 +33,23 @@ def get_courses_task2():
 
 # 3. Show a list of all courses taught in a specific room on a given date and a specific time range.
 def get_courses_task3():
-    cursor = rootConnection.cursor()
     query = "SELECT lecture.activity, room.room_number, room_booking.start_time, room_booking.end_time FROM lecture LEFT JOIN room_booking ON lecture.booking_id = room_booking.id LEFT JOIN room ON room_booking.room_id = room.id WHERE room_booking.start_time BETWEEN '2023-05-08 09:00:00' AND '2023-06-08 13:15:00' AND room.room_number='R101' ORDER BY room_booking.start_time ASC, room_booking.end_time ASC"
-    cursor.execute(query)
-    courses = cursor.fetchall()
-
-    # Map column names to custom field names
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_courses = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_courses)
+    
+    return jsonify(queryExec(query))
 
 
 # 4. Show a list of all courses taught in a specific room on a given date and at a specific time.
 def get_courses_task4():
-    cursor = rootConnection.cursor()
     query = "SELECT lecture.activity, room.room_number, room_booking.start_time, room_booking.end_time FROM lecture LEFT JOIN room_booking ON lecture.booking_id = room_booking.id LEFT JOIN room ON room_booking.room_id = room.id WHERE room_booking.start_time = '2023-05-12 09:00:00' AND room.room_number='R101'"
-    cursor.execute(query)
-    courses = cursor.fetchall()
-
-    # Map column names to custom field names
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_courses = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_courses)
+    
+    return jsonify(queryExec(query))
 
 
 # 5. Show a list of all courses, along with the name and email of the teacher teaching each course.
 def get_courses_task5():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT university_member.name, university_member.surname, contact_info.email, course.* FROM course LEFT JOIN teacher ON course.teacher_id = teacher.university_member INNER JOIN university_member ON university_member.id = teacher.university_member LEFT JOIN contact_info ON university_member.id = contact_info.university_member ORDER BY course.code ASC;"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+    query = "SELECT university_member.name, university_member.surname, contact_info.email, course.* FROM course LEFT JOIN teacher ON course.teacher_id = teacher.university_member INNER JOIN university_member ON university_member.id = teacher.university_member LEFT JOIN contact_info ON university_member.id = contact_info.university_member ORDER BY course.code ASC;"
+     
+    return jsonify(queryExec(query))
 
 
 # 6. Show a list of all courses taught by a specific teacher, along with the institute and faculty where each course
