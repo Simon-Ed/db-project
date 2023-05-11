@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 11, 2023 at 08:33 PM
+-- Host: mysql
+-- Generation Time: May 11, 2023 at 10:17 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `project_db7`
+-- Database: `db`
 --
 
 -- --------------------------------------------------------
@@ -556,7 +556,10 @@ INSERT INTO `user_schedule` (`user_id`, `course_id`) VALUES
 (4, 7),
 (4, 8),
 (5, 9),
-(5, 10);
+(5, 10),
+(2, 10),
+(2, 11),
+(2, 12);
 
 -- --------------------------------------------------------
 
@@ -620,7 +623,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `course_semester`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course``course`  ;
 
 -- --------------------------------------------------------
 
@@ -638,7 +641,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_time_schedule`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_time_schedule`  AS SELECT `user`.`id` AS `user_id`, `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `lecture`.`activity` AS `activity`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((((`user` left join `user_schedule` on(`user`.`id` = `user_schedule`.`user_id`)) left join `course` on(`user_schedule`.`course_id` = `course`.`id`)) left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) GROUP BY `user`.`id` ORDER BY `room_booking`.`start_time` ASC  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_time_schedule`  AS SELECT `user`.`id` AS `user_id`, `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `lecture`.`activity` AS `activity`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((((`user` left join `user_schedule` on(`user`.`id` = `user_schedule`.`user_id`)) left join `course` on(`user_schedule`.`course_id` = `course`.`id`)) left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) ORDER BY `user`.`id` ASC, `room_booking`.`start_time` ASC  ;
 
 --
 -- Indexes for dumped tables

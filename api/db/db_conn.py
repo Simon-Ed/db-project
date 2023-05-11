@@ -48,3 +48,4 @@ studentConnection = mysql.connector.connect(**studentConfig)
 lecturerConnection = mysql.connector.connect(**lecturerConfig)'''
 
 print("DB connected")
+
