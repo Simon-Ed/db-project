@@ -10,7 +10,7 @@ app = Flask(__name__)
 def query_test_endpoint(endpoint):
     tasks = {
         1: get_courses_task1,
-        2: lambda: None,  # Replace None with the appropriate function for endpoint 2
+        2: get_courses_task2,  # Replace None with the appropriate function for endpoint 2
         3: get_courses_task3,
         4: get_courses_task4,
         5: get_courses_task5,

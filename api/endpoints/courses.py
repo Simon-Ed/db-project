@@ -23,12 +23,9 @@ def get_courses_task1():
 
 #2. Show a list of all courses taught by a specific teacher in a given semester.
 def get_courses_task2():
-    cursor = rootConnection.cursor()
-    query = ''
-    cursor.execute(query)
-    courses = cursor.fetchall()
-    response = jsonify(courses)
-    return response
+    query = "SELECT course.code, course.name, CONCAT(university_member.name, ' ', university_member.surname) AS name, course_semester.semester, course_semester.start_date, course_semester.end_date FROM teacher LEFT JOIN university_member ON teacher.university_member = university_member.id LEFT JOIN course ON teacher.university_member = course.teacher_id LEFT JOIN course_semester ON course.id = course_semester.course_id WHERE university_member.name = 'Emily' AND course_semester.semester COLLATE utf8mb4_unicode_ci = 'Vår 2023';"
+
+    return jsonify(queryExec(query))
 
 
 # 3. Show a list of all courses taught in a specific room on a given date and a specific time range.
