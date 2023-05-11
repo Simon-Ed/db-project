@@ -38,7 +38,7 @@ def get_rooms_task10():
 
 # 11. Show a list of all rooms, along with the number and type of reservations made for each room.
 def get_rooms_task11():
-    query = "SELECT room.*, room_booking.type, COUNT(*) FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id GROUP BY room.id, room_booking.type"
+    query = "SELECT room.*, room_booking.type, COUNT(*) AS num_of_booking_type FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id GROUP BY room.id, room_booking.type"
     
     return jsonify(queryExec(query))
 
