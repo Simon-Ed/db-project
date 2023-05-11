@@ -17,7 +17,9 @@ def query_test_endpoint(endpoint):
         6: get_courses_task6,
         7: get_courses_task7,
         8: get_rooms_task8,
-        9: get_rooms_task9
+        9: get_rooms_task9,
+        10: get_rooms_task10,
+        11: get_rooms_task11
     }
     return tasks.get(endpoint, lambda: None)()
 

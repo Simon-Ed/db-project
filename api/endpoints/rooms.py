@@ -30,27 +30,15 @@ def get_rooms_task9():
 
 # 10. Show a list of all rooms and the reservations made for each room, including the name of the person who made
 # each reservation
-def get_room_and_reservations_booker():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.*, university_member.name, university_member.surname " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
-                "LEFT JOIN university_member ON booker = university_member.id "
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task10():
+    query = "SELECT room.*, room_booking.*, CONCAT(university_member.name, ' ', university_member.surname) AS name FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id LEFT JOIN university_member ON booker = university_member.id"
+    
+    return jsonify(queryExec(query))
 
 
 # 11. Show a list of all rooms, along with the number and type of reservations made for each room.
-def get_rooms_nrOfreservation_reservationType():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.type, COUNT(*) " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
-                "GROUP BY room.room_id, room_booking.type"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_rooms_task11():
+    query = "SELECT room.*, room_booking.type, COUNT(*) FROM room LEFT JOIN room_booking ON room.id = room_booking.room_id GROUP BY room.id, room_booking.type"
+    
+    return jsonify(queryExec(query))
 
