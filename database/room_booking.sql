@@ -82,27 +82,27 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, `start_date`, `end_date`) VALUES
 (1, 'IT2201', 'Database Systems', 50, 11, '2023-09-01', '2023-12-15'),
-(2, 'TDT4102', 'Object-Oriented Programming', 60, 12, '2023-09-01', '2023-12-15'),
+(2, 'TDT4102', 'Object-Oriented Programming', 60, NULL, '2023-09-01', '2023-12-15'),
 (3, 'MAT1100', 'Calculus', 70, 13, '2023-09-01', '2023-12-15'),
 (4, 'DAT320', 'Data Management and Database Systems', 40, 11, '2023-09-01', '2023-12-15'),
 (5, 'TDT4140', 'Software Engineering', 55, 12, '2023-09-01', '2023-12-15'),
 (6, 'MAT1110', 'Linear Algebra', 60, 13, '2023-09-01', '2023-12-15'),
 (7, 'TDT4165', 'Programming Languages', 45, 12, '2023-09-01', '2023-12-15'),
 (8, 'IT2805', 'Web Technologies', 50, 11, '2023-09-01', '2023-12-15'),
-(9, 'MAT1120', 'Discrete Mathematics', 65, 13, '2023-09-01', '2023-12-15'),
+(9, 'MAT1120', 'Discrete Mathematics', 65, NULL, '2023-09-01', '2023-12-15'),
 (10, 'TDT4173', 'Machine Learning', 40, 11, '2023-09-01', '2023-12-15'),
-(11, 'ELE1100', 'Introduction to Electronics', 55, 12, '2023-09-01', '2023-12-15'),
+(11, 'ELE1100', 'Introduction to Electronics', 55, NULL, '2023-09-01', '2023-12-15'),
 (12, 'BIO1000', 'Introduction to Biology', 70, 13, '2023-09-01', '2023-12-15'),
 (13, 'TDT4180', 'Artificial Intelligence', 45, 11, '2023-09-01', '2023-12-15'),
 (14, 'PHYS1110', 'Classical Mechanics', 60, 12, '2023-09-01', '2023-12-15'),
 (15, 'TMA4100', 'Calculus 1', 75, 13, '2023-09-01', '2023-12-15'),
 (16, 'TDT4195', 'Data Science', 40, 11, '2023-09-01', '2023-12-15'),
-(17, 'STAT1101', 'Introduction to Statistics', 55, 12, '2023-09-01', '2023-12-15'),
+(17, 'STAT1101', 'Introduction to Statistics', 55, NULL, '2023-09-01', '2023-12-15'),
 (18, 'TDT4200', 'Parallel Computing', 50, 13, '2023-09-01', '2023-12-15'),
 (19, 'PSY1010', 'Introduction to Psychology', 65, 11, '2023-09-01', '2023-12-15'),
 (20, 'MEC2200', 'Mechanics and Materials', 70, 12, '2023-09-01', '2023-12-15'),
 (21, 'TDT4300', 'Software Architecture', 45, 12, '2023-01-01', '2023-05-31'),
-(22, 'INF2200', 'Algorithms and Data Structures', 60, 11, '2023-01-01', '2023-05-31'),
+(22, 'INF2200', 'Algorithms and Data Structures', 60, NULL, '2023-01-01', '2023-05-31'),
 (23, 'MAT2300', 'Probability Theory', 55, 13, '2023-01-01', '2023-05-31'),
 (24, 'TDT4145', 'Data Modeling, Databases and Database Management Systems', 40, 11, '2023-01-01', '2023-05-31'),
 (25, 'MAT2310', 'Mathematical Statistics', 65, 13, '2023-01-01', '2023-05-31'),
@@ -470,7 +470,7 @@ INSERT INTO `user_schedule` (`user_id`, `course_id`) VALUES
 --
 DROP TABLE IF EXISTS `semester_name`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `semester_name`  AS SELECT `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course``course`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `semester_name`  AS SELECT `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`  ;
 
 --
 -- Indexes for dumped tables
