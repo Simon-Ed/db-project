@@ -1,28 +1,21 @@
 from flask import Flask, jsonify
-from endpoints.courses import get_courses_task1, get_courses_task2, get_courses_task3, get_courses_task4
+from endpoints.courses import *
 #from endpoints.rooms import get_rooms_available_givendate_timerange
 #from endpoints.teachers import get_teachers_nrOfcourses_eachSem_sotredBynr
 
 app = Flask(__name__)
 
-
-@app.route('/courses/1', methods=['GET'])
-def courses_endpoint1():
-    return get_courses_task1()
-
-
-@app.route('/courses/2', methods=['GET'])
-def courses_endpoint2():
-    return ()
-
-
-@app.route('/courses/3', methods=['GET'])
-def courses_endpoint3():
-    return get_courses_task3()
-
-@app.route('/courses/4', methods=['GET'])
-def courses_endpoint4():
-    return get_courses_task4()
+# Endpoint for testing the 16 queries in the task.
+@app.route('/query-test/<int:endpoint>', methods=['GET'])
+def query_test_endpoint(endpoint):
+    tasks = {
+        1: get_courses_task1,
+        2: lambda: None,  # Replace None with the appropriate function for endpoint 2
+        3: get_courses_task3,
+        4: get_courses_task4,
+        5: get_courses_task5
+    }
+    return tasks.get(endpoint, lambda: None)()
 
 
 @app.route('/rooms', methods=['GET'])
