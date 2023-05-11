@@ -1,4 +1,4 @@
-from db.db_conn import rootConnection
+from api.db.db_conn import rootConnection
 
 def get_teachers():
     cursor = rootConnection.cursor()
