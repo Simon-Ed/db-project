@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from api.db.db_conn import rootConnection
+from db.db_conn import rootConnection
 
 
 # 8. Show a list of all rooms available for a given date and time range.

@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from api.db.db_conn import rootConnection
+from db.db_conn import rootConnection
 
 
 # Show a list of all courses that have not been assigned a lecturer, along with the room number

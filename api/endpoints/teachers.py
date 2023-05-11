@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from api.db.db_conn import rootConnection
+from db.db_conn import rootConnection
 
 
 # 12. Show a list of all teachers and the number of courses they are teaching in each semester, sorted by the number
