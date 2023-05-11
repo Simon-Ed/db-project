@@ -57,12 +57,9 @@ def get_courses_task4():
 
 
 # 5. Show a list of all courses, along with the name and email of the teacher teaching each course.
-def get_course_teachername_teacheremail():
+def get_courses_task5():
     with rootConnection.cursor() as cursor:
-        query = "SELECT university_member.name, university_member.surname, university_member.email, course.* " \
-                "FROM course " \
-                "LEFT JOIN (teacher JOIN university_member ON university_member.id = teacher.universtiy_member)" \
-                "ON teacher.personal_id = course.teacher.id"
+        query = "SELECT university_member.name, university_member.surname, contact_info.email, course.* FROM course LEFT JOIN teacher ON course.teacher_id = teacher.university_member INNER JOIN university_member ON university_member.id = teacher.university_member LEFT JOIN contact_info ON university_member.id = contact_info.university_member ORDER BY course.code ASC;"
         cursor.execute(query)
         courses = cursor.fetchall()
         response = jsonify(courses)
