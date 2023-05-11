@@ -106,3 +106,18 @@ def get_course_specific_teacher_roomnr_buildingname():
         response = jsonify(courses)
     return response
 
+# 15. Show a list of all courses that are taught on Mondays, along with the name and email of the
+# teachers teaching each course.
+def get_courses_on_Mondays_and_teachers_name_email():
+    with rootConnection.cursor() as cursor:
+        query = "SELECT course.name, room_booking.start_time, university_member.name, university_member.email " \
+                "FROM course " \
+                "LEFT JOIN lecture ON course.courses_id = lecture.course_id " \
+                "LEFT JOIN teacher ON course.teacher_id = teacher.personal_id " \
+                "LEFT JOIN room_booking ON lecture.booking_id = room_booking.booking_id " \
+                "LEFT JOIN univserity_member ON university_member.id = teacher.university_member " \
+                "WHERE WEEKDAY(room_booking.start-time) = 0"
+        cursor.execute(query)
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response

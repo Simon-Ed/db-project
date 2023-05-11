@@ -51,7 +51,7 @@ def get_room_and_reservations_booker():
 # 11. Show a list of all rooms, along with the number and type of reservations made for each room.
 def get_rooms_nrOfreservation_reservationType():
     with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.type, COUNT() " \
+        query = "SELECT room.*, room_booking.type, COUNT(*) " \
                 "FROM room " \
                 "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
                 "GROUP BY room.room_id, room_booking.type"
@@ -60,16 +60,3 @@ def get_rooms_nrOfreservation_reservationType():
         response = jsonify(courses)
     return response
 
-
-# 12. Show a list of all teachers and the number of courses they are teaching in each semester, sorted by the number
-# of courses.
-def get_rooms_nrOfreservation_reservationType():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT room.*, room_booking.type, COUNT() " \
-                "FROM room " \
-                "LEFT JOIN room_booking ON room.room.id = room_booking.room.id " \
-                "GROUP BY room.room_id, room_booking.type"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
