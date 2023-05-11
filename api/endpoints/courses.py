@@ -70,11 +70,11 @@ def get_courses_task7():
 # 12. Show a list of all teachers and the courses, they teach, including the room number and building
 # name where each course is held.
 def get_courses_task12():
-    query = "SELECT university_member.name AS firstName, university_member.surname, course_semester.name, COUNT(course.id) AS num_courses, course_semester.semester" \
+    query = "SELECT university_member.name AS firstName, university_member.surname, course_semester.name, COUNT(course.id) AS num_courses, course_semester.semester " \
             "FROM course " \
             "INNER JOIN university_member ON course.teacher_id = university_member.id" \
-            "INNER JOIN course_semester ON course.id = course_semester.course_id" \
-            "GROUP BY university_member.id, course_semester.semester  " \
+            "INNER JOIN course_semester ON course.id = course_semester.course_id " \
+            "GROUP BY university_member.id, course_semester.semester " \
             "ORDER BY `num_courses` DESC;"
     return jsonify(queryExec(query))
 
