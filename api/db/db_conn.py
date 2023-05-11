@@ -2,42 +2,42 @@ import mysql.connector
 
 # Database configuration
 rootConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'root',
-    'password': 'root',
-    'database': 'db',
+    'password': '',
+    'database': 'project_db',
     'port': "3306"
 }
 
 adminConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'admin',
     'password': '',
-    'db': 'db',
+    'db': 'project_db',
     'port': "3306"
 }
 
 publicConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'general_public',
     'password': '',
-    'db': 'db',
+    'db': 'project_db',
     'port': "3306"
 }
 
 studentConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'Student',
     'password': '',
-    'db': 'db',
+    'db': 'project_db',
     'port': "3306"
 }
 
 lecturerConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'lecturer',
     'password': '',
-    'db': 'db',
+    'db': 'project_db',
     'port': "3306"
 }
 
