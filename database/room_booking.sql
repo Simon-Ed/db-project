@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2023 at 11:43 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 11, 2023 at 01:32 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
-USE db;
-
+USE db
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -20,8 +19,46 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `room_bookings`
+-- Database: `new_db2`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `building`
+--
+
+CREATE TABLE `building` (
+  `id` int(11) NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `building_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `building`
+--
+
+INSERT INTO `building` (`id`, `location`, `building_name`) VALUES
+(1, 'Campus', 'Realfagsbygget'),
+(2, 'Campus', 'Kjelhuset'),
+(3, 'Campus', 'G-bygget'),
+(4, 'Campus', 'Hovedbygget'),
+(5, 'Campus', 'Sentralbygget'),
+(6, 'Campus', 'M-bygget'),
+(7, 'Campus', 'Gjøvik Gård'),
+(8, 'Campus', 'Økonomibygget');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_info`
+--
+
+CREATE TABLE `contact_info` (
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(8) NOT NULL,
+  `university_member` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -30,26 +67,74 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `course` (
-  `course_id` varchar(20) NOT NULL,
+  `id` int(11) NOT NULL,
+  `code` varchar(20) NOT NULL,
   `name` varchar(255) NOT NULL,
   `number_of_students` int(11) DEFAULT NULL,
-  `teacher_id` varchar(20) DEFAULT NULL,
-  `semester_id` int(11) DEFAULT NULL
+  `teacher_id` int(11) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`course_id`, `name`, `number_of_students`, `teacher_id`, `semester_id`) VALUES
-('IDATG2001', 'Databaser 1', 70, '0123456789', 2),
-('IDATG2002', 'Databaser 2', 60, '1234567890', 1),
-('IDATG4001', 'Webprogrammering', 30, '9012345678', 2),
-('IDATT1001', 'Programmering 1', 120, '7890123456', 1),
-('IDATT1002', 'Programmering 2', 90, '8901234567', 1),
-('IDATT1003', 'Programmering 3', 80, '9012345678', 2),
-('IDATT3001', 'Programvarearkitektur', 50, '7890123456', 2),
-('IDATT3002', 'Programmeringsspråk', 40, '8901234567', 1);
+INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, `start_date`, `end_date`) VALUES
+(1, 'IT2201', 'Database Systems', 50, 11, '2023-09-01', '2023-12-15'),
+(2, 'TDT4102', 'Object-Oriented Programming', 60, NULL, '2023-09-01', '2023-12-15'),
+(3, 'MAT1100', 'Calculus', 70, 13, '2023-09-01', '2023-12-15'),
+(4, 'DAT320', 'Data Management and Database Systems', 40, 11, '2023-09-01', '2023-12-15'),
+(5, 'TDT4140', 'Software Engineering', 55, 12, '2023-09-01', '2023-12-15'),
+(6, 'MAT1110', 'Linear Algebra', 60, 13, '2023-09-01', '2023-12-15'),
+(7, 'TDT4165', 'Programming Languages', 45, 12, '2023-09-01', '2023-12-15'),
+(8, 'IT2805', 'Web Technologies', 50, 11, '2023-09-01', '2023-12-15'),
+(9, 'MAT1120', 'Discrete Mathematics', 65, NULL, '2023-09-01', '2023-12-15'),
+(10, 'TDT4173', 'Machine Learning', 40, 11, '2023-09-01', '2023-12-15'),
+(11, 'ELE1100', 'Introduction to Electronics', 55, NULL, '2023-09-01', '2023-12-15'),
+(12, 'BIO1000', 'Introduction to Biology', 70, 13, '2023-09-01', '2023-12-15'),
+(13, 'TDT4180', 'Artificial Intelligence', 45, 11, '2023-09-01', '2023-12-15'),
+(14, 'PHYS1110', 'Classical Mechanics', 60, 12, '2023-09-01', '2023-12-15'),
+(15, 'TMA4100', 'Calculus 1', 75, 13, '2023-09-01', '2023-12-15'),
+(16, 'TDT4195', 'Data Science', 40, 11, '2023-09-01', '2023-12-15'),
+(17, 'STAT1101', 'Introduction to Statistics', 55, NULL, '2023-09-01', '2023-12-15'),
+(18, 'TDT4200', 'Parallel Computing', 50, 13, '2023-09-01', '2023-12-15'),
+(19, 'PSY1010', 'Introduction to Psychology', 65, 11, '2023-09-01', '2023-12-15'),
+(20, 'MEC2200', 'Mechanics and Materials', 70, 12, '2023-09-01', '2023-12-15'),
+(21, 'TDT4300', 'Software Architecture', 45, 12, '2023-01-01', '2023-05-31'),
+(22, 'INF2200', 'Algorithms and Data Structures', 60, NULL, '2023-01-01', '2023-05-31'),
+(23, 'MAT2300', 'Probability Theory', 55, 13, '2023-01-01', '2023-05-31'),
+(24, 'TDT4145', 'Data Modeling, Databases and Database Management Systems', 40, 11, '2023-01-01', '2023-05-31'),
+(25, 'MAT2310', 'Mathematical Statistics', 65, 13, '2023-01-01', '2023-05-31'),
+(26, 'TDT4171', 'Cryptography and Network Security', 55, 12, '2023-01-01', '2023-05-31'),
+(27, 'FYS1120', 'Electromagnetism', 50, 14, '2023-01-01', '2023-05-31'),
+(28, 'STK1100', 'Introduction to Applied Statistics', 70, 15, '2023-01-01', '2023-05-31'),
+(29, 'MEC2300', 'Thermodynamics', 75, 12, '2023-01-01', '2023-05-31'),
+(30, 'SIF1002', 'International Relations', 60, 15, '2023-01-01', '2023-05-31'),
+(31, 'TDT4320', 'Software Development for Large Systems', 40, 11, '2024-01-01', '2024-05-31'),
+(32, 'TDT4120', 'Algorithms and Data Structures', 55, 12, '2024-01-01', '2024-05-31'),
+(33, 'FYS1121', 'Mechanics', 65, 14, '2024-01-01', '2024-05-31'),
+(34, 'STK2100', 'Statistical Methods and Data Analysis', 50, 15, '2024-01-01', '2024-05-31'),
+(35, 'MEC2400', 'Fluid Mechanics', 55, 12, '2024-01-01', '2024-05-31'),
+(36, 'SIF2002', 'Globalization and Development', 60, 15, '2024-01-01', '2024-05-31'),
+(37, 'TDT4345', 'Secure Software Development', 40, 11, '2024-01-01', '2024-05-31'),
+(38, 'TDT4105', 'Computer Science, Programming, and Data Analysis', 70, 12, '2024-01-01', '2024-05-31'),
+(39, 'FYS1122', 'Waves and Oscillations', 75, 14, '2024-01-01', '2024-05-31'),
+(40, 'STK3100', 'Design of Experiments and Regression Analysis', 65, 15, '2024-01-01', '2024-05-31'),
+(41, 'PHY2001', 'Quantum Mechanics', 50, 11, '2024-01-15', '2024-05-30'),
+(42, 'CHEM1002', 'Organic Chemistry', 60, 12, '2024-01-15', '2024-05-30'),
+(43, 'BIO2001', 'Genetics', 70, 13, '2024-01-15', '2024-05-30'),
+(44, 'MAT2002', 'Differential Equations', 40, 14, '2024-01-15', '2024-05-30'),
+(45, 'SOC1002', 'Introduction to Sociology', 50, 15, '2024-01-15', '2024-05-30'),
+(46, 'ART2001', 'Art History', 60, 11, '2024-01-15', '2024-05-30'),
+(47, 'ECO1002', 'Microeconomics', 70, 12, '2024-01-15', '2024-05-30'),
+(48, 'HIS2001', 'World History', 40, 13, '2024-01-15', '2024-05-30'),
+(49, 'ENG2002', 'Advanced English Writing', 50, 14, '2024-01-15', '2024-05-30'),
+(50, 'PSY2001', 'Cognitive Psychology', 60, 15, '2024-01-15', '2024-05-30'),
+(51, 'MAT3001', 'Advanced Calculus', 50, 11, '2023-08-01', '2024-05-31'),
+(52, 'PHY3002', 'Advanced Physics', 60, 12, '2023-08-01', '2024-05-31'),
+(53, 'CHEM3001', 'Inorganic Chemistry', 70, 13, '2023-08-01', '2024-05-31'),
+(54, 'BIO3002', 'Molecular Biology', 40, 14, '2023-08-01', '2024-05-31');
 
 -- --------------------------------------------------------
 
@@ -68,10 +153,13 @@ CREATE TABLE `institute` (
 
 INSERT INTO `institute` (`institute`, `faculty`) VALUES
 ('Department of Business Administration', 'Faculty of Economics and Management'),
+('Department of Business and Economics', 'Faculty of Business and Economics'),
 ('Department of Computer Science', 'Faculty of Information Technology and Electrical Engineering'),
+('Department of Engineering', 'Faculty of Engineering'),
 ('Department of History', 'Faculty of Humanities'),
 ('Department of Law', 'Faculty of Social and Educational Sciences'),
-('Department of Mathematics', 'Faculty of Natural Sciences and Technology');
+('Department of Mathematics', 'Faculty of Natural Sciences and Technology'),
+('Department of Physics', 'Faculty of Science and Technology');
 
 -- --------------------------------------------------------
 
@@ -80,7 +168,7 @@ INSERT INTO `institute` (`institute`, `faculty`) VALUES
 --
 
 CREATE TABLE `lecture` (
-  `course_id` varchar(20) NOT NULL,
+  `course_id` int(11) NOT NULL,
   `booking_id` int(11) NOT NULL,
   `activity` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -90,36 +178,36 @@ CREATE TABLE `lecture` (
 --
 
 INSERT INTO `lecture` (`course_id`, `booking_id`, `activity`) VALUES
-('IDATT1001', 1, 'Lecture'),
-('IDATT1001', 2, 'Lab'),
-('IDATT1002', 3, 'Lecture'),
-('IDATT1002', 4, 'Lab'),
-('IDATT1003', 5, 'Lecture'),
-('IDATT1003', 6, 'Lab'),
-('IDATG2001', 7, 'Lecture'),
-('IDATG2001', 8, 'Lab'),
-('IDATG2002', 9, 'Lecture'),
-('IDATG2002', 10, 'Lab'),
-('IDATT3001', 11, 'Lecture'),
-('IDATT3001', 12, 'Lab'),
-('IDATT3002', 13, 'Lecture'),
-('IDATT3002', 14, 'Lab'),
-('IDATG4001', 15, 'Lecture'),
-('IDATG4001', 16, 'Lab'),
-('IDATT1001', 17, 'Lecture'),
-('IDATT1001', 18, 'Lab'),
-('IDATT1002', 19, 'Lecture'),
-('IDATT1002', 20, 'Lab'),
-('IDATT1003', 21, 'Lecture'),
-('IDATT1003', 22, 'Lab'),
-('IDATG2001', 23, 'Lecture'),
-('IDATG2001', 24, 'Lab'),
-('IDATG2002', 25, 'Lecture'),
-('IDATG2002', 26, 'Lab'),
-('IDATT3001', 27, 'Lecture'),
-('IDATT3001', 28, 'Lab'),
-('IDATT3002', 29, 'Lecture'),
-('IDATT3002', 30, 'Lab');
+(1, 20, 'Lecture'),
+(2, 21, 'Practice'),
+(3, 22, 'Lecture'),
+(4, 23, 'Practice'),
+(5, 24, 'Lecture'),
+(6, 25, 'Practice'),
+(7, 26, 'Lecture'),
+(8, 27, 'Practice'),
+(9, 28, 'Lecture'),
+(10, 29, 'Practice'),
+(11, 30, 'Lecture'),
+(12, 20, 'Practice'),
+(13, 21, 'Lecture'),
+(14, 22, 'Practice'),
+(15, 23, 'Lecture'),
+(1, 24, 'Practice'),
+(2, 25, 'Lecture'),
+(3, 26, 'Practice'),
+(4, 27, 'Lecture'),
+(5, 28, 'Practice'),
+(6, 29, 'Lecture'),
+(7, 30, 'Practice'),
+(8, 20, 'Lecture'),
+(9, 21, 'Practice'),
+(10, 22, 'Lecture'),
+(11, 23, 'Practice'),
+(12, 24, 'Lecture'),
+(13, 25, 'Practice'),
+(14, 26, 'Lecture'),
+(15, 27, 'Practice');
 
 -- --------------------------------------------------------
 
@@ -128,45 +216,70 @@ INSERT INTO `lecture` (`course_id`, `booking_id`, `activity`) VALUES
 --
 
 CREATE TABLE `room` (
-  `room_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `building_id` int(11) NOT NULL,
   `room_number` varchar(50) DEFAULT NULL,
-  `location` varchar(50) DEFAULT NULL,
   `room_type` varchar(50) DEFAULT NULL,
   `room_size` int(11) DEFAULT NULL,
   `floor_level` int(11) DEFAULT NULL,
-  `building_name` varchar(50) DEFAULT NULL
+  `bookable` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room`
 --
 
-INSERT INTO `room` (`room_id`, `room_number`, `location`, `room_type`, `room_size`, `floor_level`, `building_name`) VALUES
-(1, 'A101', 'Trondheim', 'Lecture Hall', 200, 1, 'Abel Building'),
-(2, 'A102', 'Trondheim', 'Lecture Hall', 150, 1, 'Abel Building'),
-(3, 'A103', 'Trondheim', 'Seminar Room', 30, 1, 'Abel Building'),
-(4, 'B201', 'Trondheim', 'Lecture Hall', 180, 2, 'Bolt Building'),
-(5, 'B202', 'Trondheim', 'Seminar Room', 25, 2, 'Bolt Building'),
-(6, 'B203', 'Trondheim', 'Seminar Room', 20, 2, 'Bolt Building'),
-(7, 'C301', 'Trondheim', 'Lecture Hall', 220, 3, 'Curie Building'),
-(8, 'C302', 'Trondheim', 'Seminar Room', 40, 3, 'Curie Building'),
-(9, 'C303', 'Trondheim', 'Seminar Room', 35, 3, 'Curie Building'),
-(10, 'D401', 'Trondheim', 'Lecture Hall', 190, 4, 'Darwin Building'),
-(11, 'D402', 'Trondheim', 'Seminar Room', 30, 4, 'Darwin Building'),
-(12, 'A101', 'Gjøvik', 'Lecture Hall', 250, 1, 'Elton Building'),
-(13, 'A102', 'Gjøvik', 'Seminar Room', 35, 1, 'Elton Building'),
-(14, 'A103', 'Gjøvik', 'Seminar Room', 30, 1, 'Elton Building'),
-(15, 'A101', 'Ålesund', 'Lecture Hall', 180, 1, 'Gunn Building'),
-(16, 'A102', 'Ålesund', 'Seminar Room', 20, 1, 'Gunn Building'),
-(17, 'A103', 'Ålesund', 'Seminar Room', 15, 1, 'Gunn Building'),
-(18, 'B201', 'Ålesund', 'Lecture Hall', 220, 2, 'Gunn Building'),
-(19, 'B202', 'Ålesund', 'Seminar Room', 30, 2, 'Gunn Building'),
-(20, 'B203', 'Ålesund', 'Seminar Room', 25, 2, 'Gunn Building'),
-(21, 'A201', 'Trondheim', 'Office Room', 10, 2, 'Abel Building'),
-(22, 'B301', 'Trondheim', 'Office Room', 12, 3, 'Bolt Building'),
-(23, 'C401', 'Gjøvik', 'Office Room', 15, 4, 'Curie Building'),
-(24, 'D501', 'Gjøvik', 'Office Room', 8, 5, 'Darwin Building'),
-(25, 'E601', 'Ålesund', 'Office Room', 6, 6, 'Elton Building');
+INSERT INTO `room` (`id`, `building_id`, `room_number`, `room_type`, `room_size`, `floor_level`, `bookable`) VALUES
+(1, 1, 'R101', 'Classroom', 50, 1, 1),
+(2, 1, 'R102', 'Classroom', 60, 1, 1),
+(3, 1, 'R103', 'Lab', 40, 1, 1),
+(4, 2, 'K101', 'Classroom', 50, 1, 1),
+(5, 2, 'K102', 'Classroom', 60, 1, 1),
+(6, 2, 'K103', 'Lab', 40, 1, 1),
+(7, 3, 'G101', 'Classroom', 50, 2, 1),
+(8, 3, 'G102', 'Classroom', 60, 2, 1),
+(9, 3, 'G103', 'Lab', 40, 2, 1),
+(10, 4, 'H101', 'Classroom', 50, 2, 1),
+(11, 4, 'H102', 'Classroom', 60, 2, 1),
+(12, 4, 'H103', 'Lab', 40, 2, 1),
+(13, 5, 'S101', 'Classroom', 50, 3, 1),
+(14, 5, 'S102', 'Classroom', 60, 3, 1),
+(15, 5, 'S103', 'Lab', 40, 3, 1),
+(16, 6, 'M101', 'Classroom', 50, 3, 1),
+(17, 6, 'M102', 'Classroom', 60, 3, 1),
+(18, 6, 'M103', 'Lab', 40, 3, 1),
+(19, 7, 'GG101', 'Classroom', 50, 1, 1),
+(20, 8, 'Ø101', 'Classroom', 50, 1, 1),
+(21, 1, 'R201', 'Classroom', 50, 2, 1),
+(22, 1, 'R202', 'Classroom', 60, 2, 1),
+(23, 1, 'R203', 'Lab', 40, 2, 1),
+(24, 1, 'R204', 'Meeting Room', 30, 2, 1),
+(25, 1, 'R205', 'Study Room', 20, 2, 1),
+(26, 1, 'R206', NULL, NULL, 2, 1),
+(27, 2, 'K201', 'Classroom', 50, 2, 1),
+(28, 2, 'K202', 'Classroom', 60, 2, 1),
+(29, 2, 'K203', 'Lab', 40, 2, 1),
+(30, 2, 'K204', 'Auditorium', 100, 2, 1),
+(31, 2, 'K205', NULL, 25, 2, 1),
+(32, 3, 'G201', 'Classroom', 50, 3, 1),
+(33, 3, 'G202', 'Classroom', 60, 3, 1),
+(34, 3, 'G203', 'Lab', 40, 3, 1),
+(35, 3, 'G204', 'Workshop', 35, 3, 1),
+(36, 3, 'G205', NULL, 30, 3, 1),
+(37, 4, 'H201', 'Classroom', 50, 3, 1),
+(38, 4, 'H202', 'Classroom', 60, 3, 1),
+(39, 4, 'H203', 'Lab', 40, 3, 1),
+(40, 4, 'H204', 'Seminar Room', 50, 3, 1),
+(41, 1, 'R301', 'Office', NULL, 3, 0),
+(42, 1, 'R302', 'Office', NULL, 3, 0),
+(43, 2, 'K301', 'Office', NULL, 3, 0),
+(44, 2, 'K302', 'Office', NULL, 3, 0),
+(45, 3, 'G301', 'Office', NULL, 4, 0),
+(46, 3, 'G302', 'Office', NULL, 4, 0),
+(47, 4, 'H301', 'Office', NULL, 4, 0),
+(48, 4, 'H302', 'Office', NULL, 4, 0),
+(49, 5, 'S301', 'Office', NULL, 5, 0),
+(50, 5, 'S302', 'Office', NULL, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -175,7 +288,7 @@ INSERT INTO `room` (`room_id`, `room_number`, `location`, `room_type`, `room_siz
 --
 
 CREATE TABLE `room_booking` (
-  `booking_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `start_time` datetime NOT NULL,
   `end_time` datetime NOT NULL,
   `type` varchar(255) DEFAULT NULL,
@@ -187,59 +300,53 @@ CREATE TABLE `room_booking` (
 -- Dumping data for table `room_booking`
 --
 
-INSERT INTO `room_booking` (`booking_id`, `start_time`, `end_time`, `type`, `room_id`, `booker`) VALUES
-(1, '2023-06-08 09:00:00', '2023-06-08 11:00:00', 'Lecture', 1, 19),
-(2, '2023-06-08 11:15:00', '2023-06-08 13:15:00', 'Seminar', 2, 20),
-(3, '2023-06-09 10:30:00', '2023-06-09 12:30:00', 'Meeting', 3, 1),
-(4, '2023-06-09 13:00:00', '2023-06-09 15:00:00', 'Lecture', 4, 2),
-(5, '2023-06-10 12:15:00', '2023-06-10 14:15:00', 'Lecture', 5, 3),
-(6, '2023-06-10 14:30:00', '2023-06-10 16:30:00', 'Seminar', 6, 4),
-(7, '2023-06-11 08:45:00', '2023-06-11 10:45:00', 'Meeting', 7, 5),
-(8, '2023-06-11 11:00:00', '2023-06-11 13:00:00', 'Lecture', 8, 6),
-(9, '2023-06-12 14:15:00', '2023-06-12 16:15:00', 'Lecture', 9, 7),
-(10, '2023-06-12 16:30:00', '2023-06-12 18:30:00', 'Seminar', 10, 8),
-(11, '2023-05-15 08:00:00', '2023-05-15 10:00:00', 'Lecture', 11, 9),
-(12, '2023-05-15 10:15:00', '2023-05-15 12:15:00', 'Seminar', 12, 10),
-(13, '2023-05-16 09:30:00', '2023-05-16 11:30:00', 'Meeting', 13, 11),
-(14, '2023-05-16 12:00:00', '2023-05-16 14:00:00', 'Lecture', 14, 12),
-(15, '2023-05-17 13:15:00', '2023-05-17 15:15:00', 'Lecture', 15, 13),
-(16, '2023-05-17 15:30:00', '2023-05-17 17:30:00', 'Seminar', 16, 14),
-(17, '2023-05-18 10:45:00', '2023-05-18 12:45:00', 'Meeting', 17, 15),
-(18, '2023-05-18 13:00:00', '2023-05-18 15:00:00', 'Lecture', 18, 16),
-(19, '2023-05-19 14:45:00', '2023-05-19 16:45:00', 'Lecture', 19, 17),
-(20, '2023-05-19 17:00:00', '2023-05-19 19:00:00', 'Seminar', 20, 18),
-(21, '2023-08-01 09:00:00', '2023-08-01 11:00:00', 'Lecture', 1, 19),
-(22, '2023-08-01 11:15:00', '2023-08-01 13:15:00', 'Seminar', 2, 20),
-(23, '2023-08-02 10:30:00', '2023-08-02 12:30:00', 'Meeting', 3, 1),
-(24, '2023-08-02 13:00:00', '2023-08-02 15:00:00', 'Lecture', 4, 2),
-(25, '2023-08-03 12:15:00', '2023-08-03 14:15:00', 'Lecture', 5, 3),
-(26, '2023-08-03 14:30:00', '2023-08-03 16:30:00', 'Seminar', 6, 4),
-(27, '2023-08-04 08:45:00', '2023-08-04 10:45:00', 'Meeting', 7, 5),
-(28, '2023-08-04 11:00:00', '2023-08-04 13:00:00', 'Lecture', 8, 6),
-(29, '2023-08-05 14:15:00', '2023-08-05 16:15:00', 'Lecture', 9, 7),
-(30, '2023-08-05 16:30:00', '2023-08-05 18:30:00', 'Seminar', 10, 8);
+INSERT INTO `room_booking` (`id`, `start_time`, `end_time`, `type`, `room_id`, `booker`) VALUES
+(20, '2023-05-12 09:00:00', '2023-05-12 10:30:00', 'Meeting', 1, 5),
+(21, '2023-06-05 14:30:00', '2023-06-05 16:00:00', 'Presentation', 2, 8),
+(22, '2023-06-15 11:00:00', '2023-06-15 12:30:00', 'Class', 3, 3),
+(23, '2023-07-08 10:30:00', '2023-07-08 12:00:00', 'Workshop', 4, 14),
+(24, '2023-07-21 15:30:00', '2023-07-21 17:00:00', 'Meeting', 5, 7),
+(25, '2023-08-02 13:00:00', '2023-08-02 14:30:00', 'Presentation', 6, 9),
+(26, '2023-08-18 14:00:00', '2023-08-18 15:30:00', 'Class', 7, 12),
+(27, '2023-08-28 16:30:00', '2023-08-28 18:00:00', 'Workshop', 8, 11),
+(28, '2024-02-03 09:00:00', '2024-02-03 10:30:00', 'Meeting', 9, 1),
+(29, '2024-02-15 11:30:00', '2024-02-15 13:00:00', 'Presentation', 10, 6),
+(30, '2024-03-05 14:30:00', '2024-03-05 16:00:00', 'Class', 11, 2),
+(31, '2024-03-19 15:00:00', '2024-03-19 16:30:00', 'Workshop', 12, 10),
+(32, '2024-04-10 10:30:00', '2024-04-10 12:00:00', 'Meeting', 13, 4),
+(33, '2024-04-21 13:30:00', '2024-04-21 15:00:00', 'Presentation', 14, 15),
+(34, '2024-05-03 14:00:00', '2024-05-03 15:30:00', 'Class', 15, 13),
+(35, '2024-05-15 16:30:00', '2024-05-15 18:00:00', 'Workshop', 16, 6),
+(36, '2024-06-07 09:00:00', '2024-06-07 10:30:00', 'Meeting', 17, 5),
+(37, '2024-06-20 11:30:00', '2024-06-20 13:00:00', 'Presentation', 18, 9),
+(38, '2024-07-02 14:30:00', '2024-07-02 16:00:00', 'Class', 19, 7),
+(39, '2023-08-12 09:00:00', '2023-08-12 10:30:00', 'Meeting', 1, 4),
+(40, '2023-09-02 14:30:00', '2023-09-02 16:00:00', 'Presentation', 2, 13),
+(41, '2023-09-15 11:00:00', '2023-09-15 12:30:00', 'Class', 3, 6),
+(42, '2023-10-08 10:30:00', '2023-10-08 12:00:00', 'Workshop', 4, 10),
+(43, '2023-10-21 15:30:00', '2023-10-21 17:00:00', 'Meeting', 5, 12),
+(44, '2023-11-02 13:00:00', '2023-11-02 14:30:00', 'Presentation', 6, 2),
+(45, '2023-11-18 14:00:00', '2023-11-18 15:30:00', 'Class', 7, 1),
+(46, '2023-11-28 16:30:00', '2023-11-28 18:00:00', 'Workshop', 8, 8),
+(47, '2024-02-14 09:00:00', '2024-02-14 10:30:00', 'Meeting', 9, 14),
+(48, '2024-02-26 11:30:00', '2024-02-26 13:00:00', 'Presentation', 10, 3),
+(49, '2024-03-16 14:30:00', '2024-03-16 16:00:00', 'Class', 11, 7),
+(50, '2024-03-29 15:00:00', '2024-03-29 16:30:00', 'Workshop', 12, 15),
+(51, '2024-04-20 10:30:00', '2024-04-20 12:00:00', 'Meeting', 13, 5),
+(52, '2024-05-01 13:30:00', '2024-05-01 15:00:00', 'Presentation', 14, 11),
+(53, '2024-05-14 14:00:00', '2024-05-14 15:30:00', 'Class', 15, 9);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `semester`
+-- Stand-in structure for view `semester_name`
+-- (See below for the actual view)
 --
-
-CREATE TABLE `semester` (
-  `semester_id` int(11) NOT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `semester`
---
-
-INSERT INTO `semester` (`semester_id`, `start_time`, `end_time`, `name`) VALUES
-(1, '2023-01-01 00:00:00', '2023-06-30 00:00:00', 'SPRING2023'),
-(2, '2023-07-01 00:00:00', '2023-12-31 00:00:00', 'AUTUMN2023'),
-(3, '2024-01-01 00:00:00', '2024-06-30 00:00:00', 'SPRING2024');
+CREATE TABLE `semester_name` (
+`start_date` date
+,`end_date` date
+,`semester` varchar(33)
+);
 
 -- --------------------------------------------------------
 
@@ -248,23 +355,22 @@ INSERT INTO `semester` (`semester_id`, `start_time`, `end_time`, `name`) VALUES
 --
 
 CREATE TABLE `teacher` (
-  `personal_id` varchar(20) NOT NULL,
+  `university_member` int(11) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `institute` varchar(255) NOT NULL,
-  `office` int(11) NOT NULL,
-  `university_member` int(11) NOT NULL
+  `office` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `teacher`
 --
 
-INSERT INTO `teacher` (`personal_id`, `title`, `institute`, `office`, `university_member`) VALUES
-('0123456789', 'Professor', 'Department of History', 24, 10),
-('1234567890', 'Associate Professor', 'Department of Business Administration', 25, 11),
-('7890123456', 'Professor', 'Department of Mathematics', 21, 7),
-('8901234567', 'Associate Professor', 'Department of Law', 22, 8),
-('9012345678', 'Assistant Professor', 'Department of Computer Science', 23, 9);
+INSERT INTO `teacher` (`university_member`, `title`, `institute`, `office`) VALUES
+(11, 'Dr.', 'Department of Computer Science', 41),
+(12, 'Prof.', 'Department of Engineering', 42),
+(13, 'Dr.', 'Department of Mathematics', 43),
+(14, 'Dr.', 'Department of Computer Science', 44),
+(15, 'Prof.', 'Department of Engineering', 45);
 
 -- --------------------------------------------------------
 
@@ -275,48 +381,120 @@ INSERT INTO `teacher` (`personal_id`, `title`, `institute`, `office`, `universit
 CREATE TABLE `university_member` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(8) DEFAULT NULL
+  `surname` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `university_member`
 --
 
-INSERT INTO `university_member` (`id`, `name`, `surname`, `email`, `phone`) VALUES
-(1, 'John', 'Doe', 'john.doe@example.com', '12345678'),
-(2, 'Jane', 'Smith', 'jane.smith@example.com', '23456789'),
-(3, 'Peter', 'Parker', 'peter.parker@example.com', '34567890'),
-(4, 'Mary', 'Johnson', 'mary.johnson@example.com', '45678901'),
-(5, 'Michael', 'Brown', 'michael.brown@example.com', '56789012'),
-(6, 'Olivia', 'Davis', 'olivia.davis@example.com', '67890123'),
-(7, 'William', 'Wilson', 'william.wilson@example.com', '78901234'),
-(8, 'Elizabeth', 'Taylor', 'elizabeth.taylor@example.com', '89012345'),
-(9, 'Christopher', 'Lee', 'christopher.lee@example.com', '90123456'),
-(10, 'Sarah', 'Thompson', 'sarah.thompson@example.com', '01234567'),
-(11, 'Emily', 'Harris', 'emily.harris@example.com', '12345678'),
-(12, 'Daniel', 'Clark', 'daniel.clark@example.com', '23456789'),
-(13, 'Emma', 'Walker', 'emma.walker@example.com', '34567890'),
-(14, 'Alexander', 'Allen', 'alexander.allen@example.com', '45678901'),
-(15, 'Ava', 'Green', 'ava.green@example.com', '56789012'),
-(16, 'Ethan', 'King', 'ethan.king@example.com', '67890123'),
-(17, 'Sophia', 'Wright', 'sophia.wright@example.com', '78901234'),
-(18, 'Michael', 'Scott', 'michael.scott@example.com', '89012345'),
-(19, 'Isabella', 'Hall', 'isabella.hall@example.com', '90123456'),
-(20, 'David', 'Lee', 'david.lee@example.com', '01234567');
+INSERT INTO `university_member` (`id`, `name`, `surname`) VALUES
+(1, 'John', 'Doe'),
+(2, 'Jane', 'Smith'),
+(3, 'Michael', 'Johnson'),
+(4, 'Emily', 'Williams'),
+(5, 'Robert', 'Brown'),
+(6, 'Sarah', 'Taylor'),
+(7, 'David', 'Anderson'),
+(8, 'Jennifer', 'Thomas'),
+(9, 'Christopher', 'Martinez'),
+(10, 'Jessica', 'Clark'),
+(11, 'Robert', 'Johnson'),
+(12, 'Emily', 'Anderson'),
+(13, 'Michael', 'Clark'),
+(14, 'Sarah', 'Smith'),
+(15, 'David', 'Taylor');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`) VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10),
+(11),
+(12),
+(13),
+(14),
+(15);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_schedule`
+--
+
+CREATE TABLE `user_schedule` (
+  `user_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_schedule`
+--
+
+INSERT INTO `user_schedule` (`user_id`, `course_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 4),
+(3, 5),
+(3, 6),
+(4, 7),
+(4, 8),
+(5, 9),
+(5, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `semester_name`
+--
+DROP TABLE IF EXISTS `semester_name`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `semester_name`  AS SELECT `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`  ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `building`
+--
+ALTER TABLE `building`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contact_info`
+--
+ALTER TABLE `contact_info`
+  ADD PRIMARY KEY (`email`,`phone`),
+  ADD KEY `university_member` (`university_member`);
+
+--
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`course_id`),
-  ADD KEY `teacher_id` (`teacher_id`),
-  ADD KEY `semester_id` (`semester_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `teacher_id` (`teacher_id`);
 
 --
 -- Indexes for table `institute`
@@ -335,30 +513,24 @@ ALTER TABLE `lecture`
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
-  ADD PRIMARY KEY (`room_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `building_id` (`building_id`);
 
 --
 -- Indexes for table `room_booking`
 --
 ALTER TABLE `room_booking`
-  ADD PRIMARY KEY (`booking_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `room_id` (`room_id`),
   ADD KEY `booker` (`booker`);
-
---
--- Indexes for table `semester`
---
-ALTER TABLE `semester`
-  ADD PRIMARY KEY (`semester_id`);
 
 --
 -- Indexes for table `teacher`
 --
 ALTER TABLE `teacher`
-  ADD PRIMARY KEY (`personal_id`),
+  ADD KEY `university_member` (`university_member`),
   ADD KEY `institute` (`institute`),
-  ADD KEY `office` (`office`),
-  ADD KEY `university_member` (`university_member`);
+  ADD KEY `office` (`office`);
 
 --
 -- Indexes for table `university_member`
@@ -367,65 +539,102 @@ ALTER TABLE `university_member`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_schedule`
+--
+ALTER TABLE `user_schedule`
+  ADD KEY `user_schedule_ibfk_1` (`user_id`),
+  ADD KEY `user_schedule_ibfk_2` (`course_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `building`
+--
+ALTER TABLE `building`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `room_booking`
 --
 ALTER TABLE `room_booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `semester`
---
-ALTER TABLE `semester`
-  MODIFY `semester_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `university_member`
---
-ALTER TABLE `university_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `contact_info`
+--
+ALTER TABLE `contact_info`
+  ADD CONSTRAINT `contact_info_ibfk_1` FOREIGN KEY (`university_member`) REFERENCES `university_member` (`id`);
+
+--
 -- Constraints for table `course`
 --
 ALTER TABLE `course`
-  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`personal_id`),
-  ADD CONSTRAINT `course_ibfk_2` FOREIGN KEY (`semester_id`) REFERENCES `semester` (`semester_id`);
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`university_member`);
 
 --
 -- Constraints for table `lecture`
 --
 ALTER TABLE `lecture`
-  ADD CONSTRAINT `lecture_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
-  ADD CONSTRAINT `lecture_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `room_booking` (`booking_id`);
+  ADD CONSTRAINT `lecture_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
+  ADD CONSTRAINT `lecture_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `room_booking` (`id`);
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+  ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`building_id`) REFERENCES `building` (`id`);
 
 --
 -- Constraints for table `room_booking`
 --
 ALTER TABLE `room_booking`
-  ADD CONSTRAINT `room_booking_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`),
+  ADD CONSTRAINT `room_booking_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`),
   ADD CONSTRAINT `room_booking_ibfk_2` FOREIGN KEY (`booker`) REFERENCES `university_member` (`id`);
 
 --
 -- Constraints for table `teacher`
 --
 ALTER TABLE `teacher`
-  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`institute`) REFERENCES `institute` (`institute`),
-  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`office`) REFERENCES `room` (`room_id`),
-  ADD CONSTRAINT `teacher_ibfk_3` FOREIGN KEY (`university_member`) REFERENCES `university_member` (`id`);
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`university_member`) REFERENCES `university_member` (`id`),
+  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`institute`) REFERENCES `institute` (`institute`),
+  ADD CONSTRAINT `teacher_ibfk_3` FOREIGN KEY (`office`) REFERENCES `room` (`id`);
+
+--
+-- Constraints for table `university_member`
+--
+ALTER TABLE `university_member`
+  ADD CONSTRAINT `university_member_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `user_schedule`
+--
+ALTER TABLE `user_schedule`
+  ADD CONSTRAINT `user_schedule_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `user_schedule_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

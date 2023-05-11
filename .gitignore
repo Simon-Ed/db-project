@@ -4,5 +4,8 @@ venv/*
 node_modules
 node_modules/*
 
+.idea
+.idea/*
+
 # File in Simon's repo
 stuff.py
