@@ -3,6 +3,8 @@ from flask import jsonify
 from api.db.db_conn import rootConnection
 
 
+# Show a list of all courses that have not been assigned a lecturer, along with the room number
+# and building name where each course is held.
 def get_courses_roomnr_buildingname_noteacher():
     with rootConnection.cursor() as cursor:
         query = "SELECT course.name, Room.room_number, Room.building_name " \
@@ -17,7 +19,7 @@ def get_courses_roomnr_buildingname_noteacher():
         response = jsonify(courses)
     return response
 
-
+#2. Show a list of all courses taught by a specific teacher in a given semester.
 def get_course_in_given_sem_specific_teacher():
     with rootConnection.cursor() as cursor:
         query = "SELECT course.name, university_member.name, semester.name, semester.start_time " \
@@ -105,6 +107,7 @@ def get_course_specific_teacher_roomnr_buildingname():
         courses = cursor.fetchall()
         response = jsonify(courses)
     return response
+
 
 # 15. Show a list of all courses that are taught on Mondays, along with the name and email of the
 # teachers teaching each course.
