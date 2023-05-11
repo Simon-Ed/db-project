@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from endpoints.courses import *
 from endpoints.rooms import *
-#from endpoints.teachers import get_teachers_nrOfcourses_eachSem_sotredBynr
+from endpoints.teachers import *
 
 app = Flask(__name__)
 
@@ -20,11 +20,11 @@ def query_test_endpoint(endpoint):
         9: get_rooms_task9,
         10: get_rooms_task10,
         11: get_rooms_task11,
-        12: get_courses_task12,
-        13: get_courses_task13,
-        14: get_courses_task14,
+        12: get_teachers_task12,
+        13: get_teachers_task13,
+        14: get_teachers_task14,
         15: get_courses_task15,
-        16: get_courses_task16
+        16: get_teachers_task16
     }
     return tasks.get(endpoint, lambda: None)()
 
