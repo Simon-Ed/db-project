@@ -1,67 +1,33 @@
 from flask import jsonify
-
 from db.db_conn import rootConnection
+from utility.formatting import queryExec
 
 
-# 12. Show a list of all teachers and the number of courses they are teaching in each semester, sorted by the number
-# of courses.
-def get_teachers_nrOfcourses_eachSem_sotredBynr():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT teacher.*, semester.name , COUNT(DISTINCT course.course_id) AS num_courses " \
-                "FROM teacher " \
-                "LEFT JOIN course ON course.teacher_id = teacher.persona_.id " \
-                "LEFT JOIN semester ON course.semester_id = semester.semester_id " \
-                "GROUP BY teacher.personal_id, semester.semester_id " \
-                "ORDER BY num_courses DESC ON semester.semester_id "
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
-
-
-# 13. Show a list of all teachers and the courses they teach, including the room number and building
+# 12. Show a list of all teachers and the courses, they teach, including the room number and building
 # name where each course is held.
-def get_teachers_courses_they_teach_roomnr_buildingname():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT university_member.name, course.name , room.room_number, room.building_name " \
-                "FROM course " \
-                "LEFT JOIN teacher ON course.teacher_id = teacher.personal.id " \
-                "LEFT JOIN room ON room.room_id = teacher.office " \
-                "LEFT JOIN room_booking ON room_booking.room_id = room.room_id " \
-                "LEFT JOIN univserity_member ON teacher.university_member = university_member.id"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_teachers_task12():
+    query = "SELECT CONCAT(university_member.name,' ' , university_member.surname) AS name, MAX(course_semester.name), COUNT(course.id) AS num_courses, course_semester.semester FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN course_semester ON course.id = course_semester.course_id GROUP BY university_member.id, course_semester.semester ORDER BY num_courses DESC, course_semester.semester;"
+    return jsonify(queryExec(query))
+
+
+# 13. Show a list of all teachers and the courses, they teach, including the room number and building
+# name where each course is held.
+def get_teachers_task13():
+    query = "SELECT university_member.name AS firstName, university_member.surname, course.name AS course, room.room_number, building.building_name FROM course INNER JOIN teacher ON course.teacher_id = teacher.university_member INNER JOIN room ON room.id = teacher.office INNER JOIN building ON room.building_id = building.id INNER JOIN university_member ON teacher.university_member = university_member.id; "
+    
+    return jsonify(queryExec(query))
 
 
 # 14. Show a list of all teachers and the total number of hours they teach each week.
-def get_teachers_and_total_workhours():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT university_member.name, WEEK(room_booking.start_time) AS week, SUM(TIMESTAMPDIFF(hour, room_booking.start_time, room_booking.end_time)) AS total weeklyhours " \
-                "FROM teacher " \
-                "LEFT JOIN course ON teacher.personal_id = course.teacher_id " \
-                "LEFT JOIN lecture ON course.course_id = lecture.course_id " \
-                "LEFT JOIN room_booking ON lecture.booking_id = room_booking.booking_id " \
-                "LEFT JOIN univserity_member ON teacher.university_member = university_member.id " \
-                "GROUP BY teacher.personal_id, WEEK(room_booking.start-time)"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+def get_teachers_task14():
+    query = "SELECT university_member.name, WEEK(room_booking.start_time) AS week, SUM(TIMESTAMPDIFF(hour, room_booking.start_time, room_booking.end_time)) AS totalweeklyhours FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN lecture ON course.id = lecture.course_id INNER JOIN room_booking ON lecture.booking_id = room_booking.id GROUP BY university_member.id, WEEK(room_booking.start_time);"
+    
+    return jsonify(queryExec(query))
+
 
 # 16. Show a list of all teachers and the average number of students in the courses they teach,
-# sorted by the average number of students.
-def get_teacher_avg_number_of_students_sorted_by_avgnr():
-    with rootConnection.cursor() as cursor:
-        query = "SELECT university_member.name, AVG(course.number_of_students) AS average_number_of_students " \
-                "FROM course " \
-                "LEFT JOIN teacher ON course.teacher_id = teacher.personal_id " \
-                "LEFT JOIN university_member ON university_member.id = teacher.university_member " \
-                "GROUP BY room_booking ON lecture.booking_id = room_booking.booking_id " \
-                "LEFT JOIN university_member.name " \
-                "ORDER BY average_number_of_students ASC"
-        cursor.execute(query)
-        courses = cursor.fetchall()
-        response = jsonify(courses)
-    return response
+# sorted by the average number of students
+def get_teachers_task16():
+    query = "SELECT university_member.name AS firstName, university_member.surname, MIN(course_semester.name) AS course_name, COUNT(course.id) AS num_courses, course_semester.semester FROM course INNER JOIN university_member ON course.teacher_id = university_member.id INNER JOIN course_semester ON course.id = course_semester.course_id GROUP BY university_member.id, course_semester.semester ORDER BY num_courses DESC;"
+    
+    return jsonify(queryExec(query))

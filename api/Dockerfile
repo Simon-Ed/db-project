@@ -6,6 +6,8 @@ RUN pip install Flask
 WORKDIR /usr/app/src
 
 COPY ./endpoints ./endpoints
+COPY ./templates ./templates
+COPY ./utility ./utility
 COPY ./db ./db
 COPY main.py ./
 
