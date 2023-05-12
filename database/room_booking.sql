@@ -22,6 +22,7 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+USE `db`;
 
 --
 -- Stand-in structure for view `bookable_rooms`
@@ -624,7 +625,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `course_semester`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course``course`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`;
 
 -- --------------------------------------------------------
 
