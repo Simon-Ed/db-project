@@ -1,19 +1,7 @@
 from flask import jsonify
-
 from db.db_conn import rootConnection
+from utility.formatting import queryExec, sortRes
 
-import urllib.parse
-
-def queryExec(query):
-    cursor = rootConnection.cursor()
-    cursor.execute(query)
-    courses = cursor.fetchall()
-
-    # Map column names to custom field names
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-    
-    return mapped_res
 
 # Show a list of all courses that have not been assigned a lecturer, along with the room number
 # and building name where each course is held.
@@ -31,10 +19,7 @@ def get_courses_task2(name, semester):
     cursor.execute(query, (name, semester,))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 3. Show a list of all courses taught in a specific room on a given date and a specific time range.
@@ -45,10 +30,7 @@ def get_courses_task3(id, starttime, endtime):
     cursor.execute(query, (starttime, endtime, id))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 4. Show a list of all courses taught in a specific room on a given date and at a specific time.
@@ -59,10 +41,7 @@ def get_courses_task4(starttime, id):
     cursor.execute(query, (starttime, id))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 5. Show a list of all courses, along with the name and email of the teacher teaching each course.
@@ -81,10 +60,7 @@ def get_courses_task6(name, surname):
     cursor.execute(query, (name, surname))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 7.Show a list of all courses taught by a specific lecturer, along with the room number and building name where each
@@ -96,10 +72,7 @@ def get_courses_task7(name, surname):
     cursor.execute(query, (name, surname))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 15. Show a list of all courses, along with the name and email of the teacher teaching each course.
@@ -110,8 +83,5 @@ def get_courses_task15(id):
     cursor.execute(query, (id,))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 

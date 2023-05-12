@@ -1,17 +1,6 @@
 from flask import jsonify
-
 from db.db_conn import rootConnection
-
-def queryExec(query):
-    cursor = rootConnection.cursor()
-    cursor.execute(query)
-    courses = cursor.fetchall()
-
-    # Map column names to custom field names
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-    
-    return mapped_res
+from utility.formatting import queryExec
 
 
 # 12. Show a list of all teachers and the courses, they teach, including the room number and building

@@ -1,5 +1,5 @@
-from datetime import datetime
 import http
+from utility.query_format import validateDatetime
 from flask import Flask, jsonify, render_template, request
 from endpoints.courses import *
 from endpoints.rooms import *
@@ -8,18 +8,10 @@ from endpoints.teachers import *
 app = Flask(__name__)
 API_URL = "http://localhost:5000"
 
-# Check if the datetime is formatted correctly
-def validateDatetime(dt):
-    try:
-        datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
-        return True
-    except ValueError:
-        return False
-
-
 # Endpoint for testing the 16 queries in the task.
 @app.route('/query-test/<int:endpoint>', methods=['GET'])
 def query_test_endpoint(endpoint):
+    # Get potential query parameters 
     id = request.args.get('id')
     name = request.args.get('name')
     surname = request.args.get('surname')
@@ -58,6 +50,7 @@ def query_test_endpoint(endpoint):
     # Handle the request
     return tasks.get(endpoint, lambda: None)()
 
+# Endpoint for rendering the html table with urls to different endpoints
 @app.route('/')
 def default_path():
     return render_template('index.html', URL=API_URL)

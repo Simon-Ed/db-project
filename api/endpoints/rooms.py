@@ -1,17 +1,6 @@
 from flask import jsonify
-
 from db.db_conn import rootConnection
-
-def queryExec(query):
-    cursor = rootConnection.cursor()
-    cursor.execute(query)
-    courses = cursor.fetchall()
-
-    # Map column names to custom field names
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-    
-    return mapped_res
+from utility.formatting import queryExec, sortRes
 
 # 8. Show a list of all rooms available for a given date and time range.
 def get_rooms_task8(start_datetime, end_datetime):
@@ -21,10 +10,7 @@ def get_rooms_task8(start_datetime, end_datetime):
     cursor.execute(query, (start_datetime, end_datetime))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 9. Show a list of all reservations made by a specific user, along with the room number and building name for each
@@ -36,10 +22,7 @@ def get_rooms_task9(name, surname):
     cursor.execute(query, (name, surname))
     courses = cursor.fetchall()
 
-    field_names = [desc[0] for desc in cursor.description]
-    mapped_res = [dict(zip(field_names, course)) for course in courses]
-
-    return jsonify(mapped_res)
+    return jsonify(sortRes(cursor, courses))
 
 
 # 10. Show a list of all rooms and the reservations made for each room, including the name of the person who made
