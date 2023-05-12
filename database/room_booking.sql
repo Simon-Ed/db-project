@@ -7,6 +7,8 @@
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
+USE db;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -117,10 +119,10 @@ INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, 
 (1, 'IT2201', 'Stats', 50, 11, '2023-09-01', '2023-12-15'),
 (2, 'TDT4102', 'Stats', 60, 12, '2023-09-01', '2023-12-15'),
 (3, 'MAT1100', 'Calculus', 70, 13, '2023-09-01', '2023-12-15'),
-(4, 'DAT320', 'Data Management and Database Systems', 40, 11, '2023-09-01', '2023-12-15'),
-(5, 'TDT4140', 'Software Engineering', 55, 12, '2023-09-01', '2023-12-15'),
+(4, 'DAT320', 'Data Management and Database Systems', 40, NULL, '2023-09-01', '2023-12-15'),
+(5, 'TDT4140', 'Software Engineering', 55, NULL, '2023-09-01', '2023-12-15'),
 (6, 'MAT1110', 'Linear Algebra', 60, 13, '2023-09-01', '2023-12-15'),
-(7, 'TDT4165', 'Programming Languages', 45, 12, '2023-09-01', '2023-12-15'),
+(7, 'TDT4165', 'Programming Languages', 45, NULL, '2023-09-01', '2023-12-15'),
 (8, 'IT2805', 'Web Technologies', 50, 11, '2023-09-01', '2023-12-15'),
 (9, 'MAT1120', 'Discrete Mathematics', 65, 13, '2023-09-01', '2023-12-15'),
 (10, 'TDT4173', 'Machine Learning', 40, 11, '2023-09-01', '2023-12-15'),
@@ -144,7 +146,7 @@ INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, 
 (28, 'STK1100', 'Introduction to Applied Statistics', 70, 15, '2023-01-01', '2023-05-31'),
 (29, 'MEC2300', 'Thermodynamics', 75, 12, '2023-01-01', '2023-05-31'),
 (30, 'SIF1002', 'International Relations', 60, 15, '2023-01-01', '2023-05-31'),
-(31, 'TDT4320', 'Software Development for Large Systems', 40, 11, '2024-01-01', '2024-05-31'),
+(31, 'TDT4320', 'Software Development for Large Systems', 40, NULL, '2024-01-01', '2024-05-31'),
 (32, 'TDT4120', 'Algorithms and Data Structures', 55, 12, '2024-01-01', '2024-05-31'),
 (33, 'FYS1121', 'Mechanics', 65, 14, '2024-01-01', '2024-05-31'),
 (34, 'STK2100', 'Statistical Methods and Data Analysis', 50, 15, '2024-01-01', '2024-05-31'),
