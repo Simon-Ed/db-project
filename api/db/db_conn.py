@@ -42,13 +42,13 @@ lecturerConfig = {
 }
 
 # Dan's config 
-rootConfig = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'database': 'project_db7',
-    'port': "3307"
-}
+# rootConfig = {
+#     'host': 'localhost',
+#     'user': 'root',
+#     'password': '',
+#     'database': 'project_db7',
+#     'port': "3307"
+# }
 
 rootConnection = mysql.connector.connect(**rootConfig)
 
