@@ -8,6 +8,15 @@ from endpoints.teachers import *
 app = Flask(__name__)
 API_URL = "http://localhost:5000"
 
+# Check if the datetime is formatted correctly
+def validateDatetime(dt):
+    try:
+        datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
+        return True
+    except ValueError:
+        return False
+
+
 # Endpoint for testing the 16 queries in the task.
 @app.route('/query-test/<int:endpoint>', methods=['GET'])
 def query_test_endpoint(endpoint):
@@ -18,19 +27,15 @@ def query_test_endpoint(endpoint):
     starttime = request.args.get('starttime', default='', type=str)
     endtime = request.args.get('endtime', default='', type=str)
 
-    # Check if the date is formatted correctly
     if starttime:
-        try:
-            datetime.strptime(starttime, '%Y-%m-%d %H:%M:%S')
-        except ValueError:
-            return jsonify({'error': 'Invalid date format'}), http.HTTPStatus.BAD_REQUEST
+        if not validateDatetime(starttime):
+            return jsonify({'error': 'Invalid datetime format'}), http.HTTPStatus.BAD_REQUEST
         
     if endtime:
-        try:
-            datetime.strptime(endtime, '%Y-%m-%d %H:%M:%S')
-        except ValueError:
-            return jsonify({'error': 'Invalid date format'}), http.HTTPStatus.BAD_REQUEST
+        if not validateDatetime(endtime):
+            return jsonify({'error': 'Invalid datetime format'}), http.HTTPStatus.BAD_REQUEST
 
+    # List of the different endpoints
     tasks = {
         1: get_courses_task1,
         2: lambda: get_courses_task2(name, semester),
@@ -49,6 +54,8 @@ def query_test_endpoint(endpoint):
         15: lambda: get_courses_task15(id),
         16: get_teachers_task16
     }
+
+    # Handle the request
     return tasks.get(endpoint, lambda: None)()
 
 @app.route('/')
