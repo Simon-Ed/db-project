@@ -6,6 +6,7 @@ from endpoints.rooms import *
 from endpoints.teachers import *
 
 app = Flask(__name__)
+API_URL = "http://localhost:5000"
 
 # Endpoint for testing the 16 queries in the task.
 @app.route('/query-test/<int:endpoint>', methods=['GET'])
@@ -36,24 +37,23 @@ def query_test_endpoint(endpoint):
         3: lambda: get_courses_task3(id, starttime, endtime),
         4: lambda: get_courses_task4(starttime, id),
         5: get_courses_task5,
-        6: get_courses_task6,
-        7: get_courses_task7,
-        8: get_rooms_task8,
-        9: get_rooms_task9,
+        6: lambda: get_courses_task6(name, surname),
+        7: lambda: get_courses_task7(name, surname),
+        8: lambda: get_rooms_task8(starttime, endtime),
+        9: lambda: get_rooms_task9(name, surname),
         10: get_rooms_task10,
         11: get_rooms_task11,
         12: get_teachers_task12,
         13: get_teachers_task13,
         14: get_teachers_task14,
-        15: get_courses_task15,
+        15: lambda: get_courses_task15(id),
         16: get_teachers_task16
     }
     return tasks.get(endpoint, lambda: None)()
 
 @app.route('/')
 def default_path():
-    URL = "http://localhost:5000"
-    return render_template('index.html', URL=URL)
+    return render_template('index.html', URL=API_URL)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
