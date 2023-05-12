@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 12, 2023 at 10:47 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: May 12, 2023 at 11:41 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-USE `db`;
 
 --
 -- Stand-in structure for view `bookable_rooms`
@@ -73,14 +72,14 @@ CREATE TABLE `building` (
 --
 
 INSERT INTO `building` (`id`, `location`, `building_name`) VALUES
-(1, 'Campus', 'Realfagsbygget'),
-(2, 'Campus', 'Kjelhuset'),
-(3, 'Campus', 'G-bygget'),
-(4, 'Campus', 'Hovedbygget'),
-(5, 'Campus', 'Sentralbygget'),
-(6, 'Campus', 'M-bygget'),
-(7, 'Campus', 'Gjøvik Gård'),
-(8, 'Campus', 'Økonomibygget');
+(1, 'Ålesund', 'Realfagsbygget'),
+(2, 'Ålesund', 'Kjelhuset'),
+(3, 'Gjøvik', 'G-bygget'),
+(4, 'Ålesund', 'Hovedbygget'),
+(5, 'Ålesund', 'Sentralbygget'),
+(6, 'Gjøvik', 'M-bygget'),
+(7, 'Gjøvik', 'Gjøvik Gård'),
+(8, 'Ålesund', 'Økonomibygget');
 
 -- --------------------------------------------------------
 
@@ -213,6 +212,27 @@ CREATE TABLE `email` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `email`
+--
+
+INSERT INTO `email` (`email`, `user_id`) VALUES
+('foo@email.no', 1),
+('foofo@example.com', 2),
+('doe@example.com', 3),
+('coolman@example.com', 4),
+('foofo88@example.com', 5),
+('foofo65@example.com', 6),
+('foofo348@example.com', 7),
+('foofo45@example.com', 8),
+('foofo98@example.com', 9),
+('fofoo32@example.com', 10),
+('foo32o@example.com', 11),
+('foo5o@example.com', 12),
+('foo3o@example.com', 13),
+('foo2@example.com', 14),
+('foodo@example.com', 15);
+
 -- --------------------------------------------------------
 
 --
@@ -237,7 +257,7 @@ INSERT INTO `institute` (`institute`, `faculty`) VALUES
 ('Department of Law', 'Faculty of Social and Educational Sciences'),
 ('Department of Mathematics', 'Faculty of Natural Sciences and Technology'),
 ('Department of Physics', 'Faculty of Science and Technology'),
-('Institute', 'Faculty');
+('Department of Privacy', 'Faculty of Law and Justice');
 
 -- --------------------------------------------------------
 
@@ -256,36 +276,17 @@ CREATE TABLE `lecture` (
 --
 
 INSERT INTO `lecture` (`course_id`, `booking_id`, `activity`) VALUES
-(1, 20, 'Lecture'),
-(2, 21, 'Practice'),
-(3, 22, 'Lecture'),
-(4, 23, 'Practice'),
-(5, 24, 'Lecture'),
-(6, 25, 'Practice'),
-(7, 26, 'Lecture'),
-(8, 27, 'Practice'),
-(9, 28, 'Lecture'),
-(10, 29, 'Practice'),
-(11, 30, 'Lecture'),
-(12, 20, 'Practice'),
-(13, 21, 'Lecture'),
-(14, 22, 'Practice'),
-(15, 23, 'Lecture'),
-(1, 24, 'Practice'),
-(2, 25, 'Lecture'),
-(3, 26, 'Practice'),
-(4, 27, 'Lecture'),
-(5, 28, 'Practice'),
-(6, 29, 'Lecture'),
-(7, 30, 'Practice'),
-(8, 20, 'Lecture'),
-(9, 21, 'Practice'),
-(10, 22, 'Lecture'),
-(11, 23, 'Practice'),
-(12, 24, 'Lecture'),
-(13, 25, 'Practice'),
-(14, 26, 'Lecture'),
-(15, 27, 'Practice');
+(1, 9, 'Lecture'),
+(2, 5, 'Assessment'),
+(3, 3, 'Lecture'),
+(4, 4, 'Test'),
+(5, 5, 'Lecture'),
+(6, 2, 'Practice'),
+(7, 7, 'Lecture'),
+(8, 8, 'Lecture'),
+(9, 1, 'Lecture'),
+(10, 10, 'Practice'),
+(11, 11, 'Lecture');
 
 -- --------------------------------------------------------
 
@@ -297,6 +298,27 @@ CREATE TABLE `phone` (
   `phone` varchar(8) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `phone`
+--
+
+INSERT INTO `phone` (`phone`, `user_id`) VALUES
+('12345678', 1),
+('88885555', 2),
+('45454545', 3),
+('12345679', 4),
+('12212211', 5),
+('12233211', 6),
+('12212999', 7),
+('47412211', 8),
+('31431600', 9),
+('77771988', 10),
+('12443256', 11),
+('78436258', 12),
+('48645423', 13),
+('18746821', 14),
+('96554455', 15);
 
 -- --------------------------------------------------------
 
@@ -390,40 +412,50 @@ CREATE TABLE `room_booking` (
 --
 
 INSERT INTO `room_booking` (`id`, `start_time`, `end_time`, `type`, `room_id`, `booker`) VALUES
-(20, '2023-05-12 09:00:00', '2023-05-12 10:30:00', 'Meeting', 1, 5),
-(21, '2023-06-05 14:30:00', '2023-06-05 16:00:00', 'Presentation', 2, 8),
-(22, '2023-06-15 11:00:00', '2023-06-15 12:30:00', 'Class', 3, 3),
-(23, '2023-07-08 10:30:00', '2023-07-08 12:00:00', 'Workshop', 4, 14),
-(24, '2023-07-21 15:30:00', '2023-07-21 17:00:00', 'Meeting', 5, 7),
-(25, '2023-08-02 13:00:00', '2023-08-02 14:30:00', 'Presentation', 6, 9),
-(26, '2023-08-18 14:00:00', '2023-08-18 15:30:00', 'Class', 7, 12),
-(27, '2023-08-28 16:30:00', '2023-08-28 18:00:00', 'Workshop', 8, 11),
-(28, '2024-02-03 09:00:00', '2024-02-03 10:30:00', 'Meeting', 9, 1),
-(29, '2024-02-15 11:30:00', '2024-02-15 13:00:00', 'Presentation', 10, 6),
-(30, '2024-03-05 14:30:00', '2024-03-05 16:00:00', 'Class', 11, 2),
-(31, '2024-03-19 15:00:00', '2024-03-19 16:30:00', 'Workshop', 12, 10),
-(32, '2024-04-10 10:30:00', '2024-04-10 12:00:00', 'Meeting', 13, 4),
-(33, '2024-04-21 13:30:00', '2024-04-21 15:00:00', 'Presentation', 14, 15),
-(34, '2024-05-03 14:00:00', '2024-05-03 15:30:00', 'Class', 15, 13),
-(35, '2024-05-15 16:30:00', '2024-05-15 18:00:00', 'Workshop', 16, 6),
-(36, '2024-06-07 09:00:00', '2024-06-07 10:30:00', 'Meeting', 17, 5),
-(37, '2024-06-20 11:30:00', '2024-06-20 13:00:00', 'Presentation', 18, 9),
-(38, '2024-07-02 14:30:00', '2024-07-02 16:00:00', 'Class', 19, 7),
-(39, '2023-08-12 09:00:00', '2023-08-12 10:30:00', 'Meeting', 1, 4),
-(40, '2023-09-02 14:30:00', '2023-09-02 16:00:00', 'Presentation', 2, 13),
-(41, '2023-09-15 11:00:00', '2023-09-15 12:30:00', 'Class', 3, 6),
-(42, '2023-10-08 10:30:00', '2023-10-08 12:00:00', 'Workshop', 4, 10),
-(43, '2023-10-21 15:30:00', '2023-10-21 17:00:00', 'Meeting', 5, 12),
-(44, '2023-11-02 13:00:00', '2023-11-02 14:30:00', 'Presentation', 6, 2),
-(45, '2023-11-18 14:00:00', '2023-11-18 15:30:00', 'Class', 7, 1),
-(46, '2023-11-28 16:30:00', '2023-11-28 18:00:00', 'Workshop', 8, 8),
-(47, '2024-02-14 09:00:00', '2024-02-14 10:30:00', 'Meeting', 9, 14),
-(48, '2024-02-26 11:30:00', '2024-02-26 13:00:00', 'Presentation', 10, 3),
-(49, '2024-03-16 14:30:00', '2024-03-16 16:00:00', 'Class', 11, 7),
-(50, '2024-03-29 15:00:00', '2024-03-29 16:30:00', 'Workshop', 12, 15),
-(51, '2024-04-20 10:30:00', '2024-04-20 12:00:00', 'Meeting', 13, 5),
-(52, '2024-05-01 13:30:00', '2024-05-01 15:00:00', 'Presentation', 14, 11),
-(53, '2024-05-14 14:00:00', '2024-05-14 15:30:00', 'Class', 15, 9);
+(1, '2023-05-12 09:00:00', '2023-05-12 10:30:00', 'Meeting', 1, 5),
+(2, '2023-06-05 14:30:00', '2023-06-05 16:00:00', 'Presentation', 2, 8),
+(3, '2023-06-15 11:00:00', '2023-06-15 12:30:00', 'Class', 3, 3),
+(4, '2023-07-08 10:30:00', '2023-07-08 12:00:00', 'Workshop', 4, 14),
+(5, '2023-07-21 15:30:00', '2023-07-21 17:00:00', 'Meeting', 5, 7),
+(6, '2023-08-02 13:00:00', '2023-08-02 14:30:00', 'Presentation', 6, 9),
+(7, '2023-08-18 14:00:00', '2023-08-18 15:30:00', 'Class', 7, 12),
+(8, '2023-08-28 16:30:00', '2023-08-28 18:00:00', 'Workshop', 8, 11),
+(9, '2024-02-03 09:00:00', '2024-02-03 10:30:00', 'Meeting', 9, 1),
+(10, '2024-02-15 11:30:00', '2024-02-15 13:00:00', 'Presentation', 10, 6),
+(11, '2024-03-05 14:30:00', '2024-03-05 16:00:00', 'Class', 11, 2),
+(12, '2024-03-19 15:00:00', '2024-03-19 16:30:00', 'Workshop', 12, 10),
+(13, '2024-04-10 10:30:00', '2024-04-10 12:00:00', 'Meeting', 13, 4),
+(14, '2024-04-21 13:30:00', '2024-04-21 15:00:00', 'Presentation', 14, 15),
+(15, '2024-05-03 14:00:00', '2024-05-03 15:30:00', 'Class', 15, 13),
+(16, '2024-05-15 16:30:00', '2024-05-15 18:00:00', 'Workshop', 16, 6),
+(17, '2024-06-07 09:00:00', '2024-06-07 10:30:00', 'Meeting', 17, 5),
+(18, '2024-06-20 11:30:00', '2024-06-20 13:00:00', 'Presentation', 18, 9),
+(19, '2024-07-02 14:30:00', '2024-07-02 16:00:00', 'Class', 19, 7),
+(20, '2023-08-12 09:00:00', '2023-08-12 10:30:00', 'Meeting', 1, 4),
+(21, '2023-09-02 14:30:00', '2023-09-02 16:00:00', 'Presentation', 2, 13),
+(22, '2023-09-15 11:00:00', '2023-09-15 12:30:00', 'Class', 3, 6),
+(23, '2023-10-08 10:30:00', '2023-10-08 12:00:00', 'Workshop', 4, 10),
+(24, '2023-10-21 15:30:00', '2023-10-21 17:00:00', 'Meeting', 5, 12),
+(25, '2023-11-02 13:00:00', '2023-11-02 14:30:00', 'Presentation', 6, 2),
+(26, '2023-11-18 14:00:00', '2023-11-18 15:30:00', 'Class', 7, 1),
+(27, '2023-11-28 16:30:00', '2023-11-28 18:00:00', 'Workshop', 8, 8),
+(28, '2024-02-14 09:00:00', '2024-02-14 10:30:00', 'Meeting', 9, 14),
+(29, '2024-02-26 11:30:00', '2024-02-26 13:00:00', 'Presentation', 10, 3),
+(30, '2024-03-16 14:30:00', '2024-03-16 16:00:00', 'Class', 11, 7),
+(31, '2024-03-29 15:00:00', '2024-03-29 16:30:00', 'Workshop', 12, 15),
+(32, '2024-04-20 10:30:00', '2024-04-20 12:00:00', 'Meeting', 13, 5),
+(33, '2024-05-01 13:30:00', '2024-05-01 15:00:00', 'Presentation', 14, 11),
+(34, '2024-05-14 14:00:00', '2024-05-14 15:30:00', 'Class', 15, 9),
+(35, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 2, 3),
+(36, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 2, 3),
+(37, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 2, 3),
+(38, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 2, 3),
+(39, '2023-05-12 08:23:45', '2023-05-12 09:23:45', 'Group work', 7, 13),
+(40, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 3, 3),
+(41, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 3, 3),
+(42, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 3, 3),
+(43, '2022-05-12 10:30:00', '2022-05-12 12:30:00', 'Meeting', 3, 3),
+(44, '2023-05-12 10:00:00', '2023-05-12 10:00:00', '', 7, 15);
 
 -- --------------------------------------------------------
 
@@ -589,7 +621,7 @@ CREATE TABLE `user_time_schedule` (
 --
 DROP TABLE IF EXISTS `bookable_rooms`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookable_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`building_id` AS `building_id`, `room`.`room_number` AS `room_number`, `room`.`room_type` AS `room_type`, `room`.`room_size` AS `room_size`, `room`.`floor_level` AS `floor_level`, `room`.`bookable` AS `bookable`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM (`room` left join `building` on(`room`.`building_id` = `building`.`id`)) WHERE `room`.`bookable` = 11  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookable_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`building_id` AS `building_id`, `room`.`room_number` AS `room_number`, `room`.`room_type` AS `room_type`, `room`.`room_size` AS `room_size`, `room`.`floor_level` AS `floor_level`, `room`.`bookable` AS `bookable`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM (`room` left join `building` on(`room`.`building_id` = `building`.`id`)) WHERE `room`.`bookable` = 1;
 
 -- --------------------------------------------------------
 
@@ -598,7 +630,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `booked_rooms`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `booked_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time` FROM ((`room_booking` left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `booked_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time` FROM ((`room_booking` left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -607,7 +639,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `contact_info`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contact_info`  AS SELECT `email`.`email` AS `email`, `phone`.`phone` AS `phone`, `university_member`.`id` AS `university_member` FROM ((`university_member` left join `email` on(`university_member`.`id` = `email`.`user_id`)) left join `phone` on(`university_member`.`id` = `phone`.`user_id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contact_info`  AS SELECT `email`.`email` AS `email`, `phone`.`phone` AS `phone`, `university_member`.`id` AS `university_member` FROM ((`university_member` left join `email` on(`university_member`.`id` = `email`.`user_id`)) left join `phone` on(`university_member`.`id` = `phone`.`user_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -616,7 +648,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `course_schedules`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_schedules`  AS SELECT `course`.`id` AS `id`, `course`.`name` AS `name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((`course` left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_schedules`  AS SELECT `course`.`id` AS `id`, `course`.`name` AS `name`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((`course` left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -625,7 +657,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `course_semester`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_semester`  AS SELECT DISTINCT `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `course`.`start_date` AS `start_date`, `course`.`end_date` AS `end_date`, CASE WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '01' and '06' AND month(`course`.`end_date`) between '01' and '06' THEN concat('Vår ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) = year(`course`.`end_date`) AND month(`course`.`start_date`) between '07' and '12' AND month(`course`.`end_date`) between '07' and '12' THEN concat('Høst ',year(`course`.`start_date`)) WHEN year(`course`.`start_date`) < year(`course`.`end_date`) THEN concat('Høst ',year(`course`.`start_date`),' / Vår ',year(`course`.`end_date`)) ELSE 'Error, could not derive semester!' END AS `semester` FROM `course` ;
 
 -- --------------------------------------------------------
 
@@ -634,7 +666,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `staff_contact`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `staff_contact`  AS SELECT `university_member`.`id` AS `university_id`, `teacher`.`title` AS `title`, `university_member`.`name` AS `name`, `university_member`.`surname` AS `surname`, `room`.`id` AS `room_id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `contact_info`.`email` AS `email`, `contact_info`.`phone` AS `phone` FROM ((((`teacher` left join `room` on(`teacher`.`office` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) left join `university_member` on(`teacher`.`university_member` = `university_member`.`id`)) left join `contact_info` on(`university_member`.`id` = `contact_info`.`university_member`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `staff_contact`  AS SELECT `university_member`.`id` AS `university_id`, `teacher`.`title` AS `title`, `university_member`.`name` AS `name`, `university_member`.`surname` AS `surname`, `room`.`id` AS `room_id`, `room`.`room_number` AS `room_number`, `room`.`floor_level` AS `floor_level`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name`, `contact_info`.`email` AS `email`, `contact_info`.`phone` AS `phone` FROM ((((`teacher` left join `room` on(`teacher`.`office` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) left join `university_member` on(`teacher`.`university_member` = `university_member`.`id`)) left join `contact_info` on(`university_member`.`id` = `contact_info`.`university_member`)) ;
 
 -- --------------------------------------------------------
 
@@ -643,7 +675,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_time_schedule`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_time_schedule`  AS SELECT `user`.`id` AS `user_id`, `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `lecture`.`activity` AS `activity`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((((`user` left join `user_schedule` on(`user`.`id` = `user_schedule`.`user_id`)) left join `course` on(`user_schedule`.`course_id` = `course`.`id`)) left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) ORDER BY `user`.`id` ASC, `room_booking`.`start_time` ASC  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_time_schedule`  AS SELECT `user`.`id` AS `user_id`, `course`.`id` AS `course_id`, `course`.`code` AS `code`, `course`.`name` AS `name`, `lecture`.`activity` AS `activity`, `room_booking`.`start_time` AS `start_time`, `room_booking`.`end_time` AS `end_time`, `room`.`room_number` AS `room_number`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM ((((((`user` left join `user_schedule` on(`user`.`id` = `user_schedule`.`user_id`)) left join `course` on(`user_schedule`.`course_id` = `course`.`id`)) left join `lecture` on(`course`.`id` = `lecture`.`course_id`)) left join `room_booking` on(`lecture`.`booking_id` = `room_booking`.`id`)) left join `room` on(`room_booking`.`room_id` = `room`.`id`)) left join `building` on(`room`.`building_id` = `building`.`id`)) ORDER BY `user`.`id` ASC, `room_booking`.`start_time` ASC ;
 
 --
 -- Indexes for dumped tables
