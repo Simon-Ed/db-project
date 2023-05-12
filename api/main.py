@@ -176,6 +176,8 @@ def view_teachers():
 
 
 # student user
+
+# booking a room
 @app.route('/book-room')
 def book_room():
     user = request.args.get('user', default='', type=int) 
@@ -196,6 +198,25 @@ def book_room():
         cursor.execute(query, (start_time, end_time, roomId,user,roomType))
         rootConnection.commit()
         response = jsonify("successfully added room booking")
+    return response
+
+# retrieves contact info of teachers
+@app.route('/contact-staff')
+def view_contact_info():
+    user = request.args.get('user', default='', type=int) 
+
+    with rootConnection.cursor() as cursor:
+        query = "SELECT `university_member`.`id` FROM university_member WHERE university_member.id=%s;"
+        cursor.execute(query , (user, ))
+        valid = cursor.fetchone()
+        if valid is None:
+            return jsonify("user does not have permission to do this")
+
+    with rootConnection.cursor() as cursor:
+        query = "SELECT * FROM `staff_contact`;" 
+        cursor.execute(query)
+        staff_contact = cursor.fetchall()
+        response = jsonify(staff_contact)
     return response
 
 if __name__ == '__main__':
