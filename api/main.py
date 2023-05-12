@@ -174,5 +174,29 @@ def view_teachers():
         response = jsonify(courses)
     return response
 
+
+# student user
+@app.route('/book-room')
+def book_room():
+    user = request.args.get('user', default='', type=int) 
+    start_time = request.args.get('start_time', default='', type=str) 
+    end_time = request.args.get('end_time', default='', type=str) 
+    roomType = request.args.get('room_type', default='', type=str) 
+    roomId = request.args.get('room_id', default='', type=int) 
+
+    with rootConnection.cursor() as cursor:
+        query = "SELECT `university_member`.`id` FROM university_member WHERE university_member.id=%s;"
+        cursor.execute(query , (user, ))
+        valid = cursor.fetchone()
+        if valid is None:
+            return jsonify("user does not have permission to do this")
+
+    with rootConnection.cursor() as cursor:
+        query = "INSERT INTO room_booking( id ,start_time, end_time, room_id, booker, TYPE) VALUES(NULL , %s,  %s,%s,%s, %s);" 
+        cursor.execute(query, (start_time, end_time, roomId,user,roomType))
+        rootConnection.commit()
+        response = jsonify("successfully added room booking")
+    return response
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
