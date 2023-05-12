@@ -143,6 +143,36 @@ def view_time_schedule():
         response = jsonify(courses)
     return response
 
+# show courses 
+@app.route('/view-courses')
+def view_courses():
+    with rootConnection.cursor() as cursor:
+        query = "SELECT * FROM course;" 
+        cursor.execute(query)
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response
+
+# bookable rooms 
+@app.route('/bookable-rooms')
+def view_bookable_rooms():
+    with rootConnection.cursor() as cursor:
+        query = "SELECT * FROM bookable_rooms;" 
+        cursor.execute(query)
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response
+
+
+# view staff(teacher) without contact info
+@app.route('/staff')
+def view_teachers():
+    with rootConnection.cursor() as cursor:
+        query = "SELECT university_member.id, teacher.title, university_member.name, university_member.surname, teacher.institute FROM teacher LEFT JOIN university_member ON teacher.university_member = university_member.id;" 
+        cursor.execute(query)
+        courses = cursor.fetchall()
+        response = jsonify(courses)
+    return response
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
