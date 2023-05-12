@@ -219,5 +219,28 @@ def view_contact_info():
         response = jsonify(staff_contact)
     return response
 
+# lecturer
+
+# change course name
+@app.route('/change-course-name')
+def changer_course_name():
+    user = request.args.get('user', default='', type=int) 
+    course_id = request.args.get('course_id', default='', type=int) 
+    new_course_name = request.args.get('new_course_name', default='', type=str) 
+
+    with rootConnection.cursor() as cursor:
+        query = "SELECT teacher.university_member FROM teacher WHERE teacher.university_member=%s;"
+        cursor.execute(query , (user, ))
+        valid = cursor.fetchone()
+        if valid is None:
+            return jsonify("user does not have permission to do this")
+
+    with rootConnection.cursor() as cursor:
+        query = "UPDATE course SET course.name=%s WHERE course.id=%s;" 
+        cursor.execute(query, (new_course_name, course_id,))
+        rootConnection.commit()
+        response = jsonify("successfully changed name of course")
+    return response
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
