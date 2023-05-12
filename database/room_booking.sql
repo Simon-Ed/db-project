@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-USE `db`;
 
 --
 -- Stand-in structure for view `bookable_rooms`

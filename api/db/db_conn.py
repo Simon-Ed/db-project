@@ -2,55 +2,50 @@ import mysql.connector
 
 # Database configuration
 rootConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'root',
-    'password': 'root',
-    'database': 'db',
+    'password': '',
+    'database': 'project_db',
     'port': "3306"
 }
 
 adminConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'admin',
     'password': '',
-    'database': 'db',
+    'database': 'project_db',
     'port': "3306"
 }
 
 publicConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'general_public',
     'password': '',
-    'database': 'db',
+    'database': 'project_db',
     'port': "3306"
 }
 
 studentConfig = {
-    'host': 'mysql',
-    'user': 'Student',
+    'host': 'localhost',
+    'user': 'student',
     'password': '',
-    'database': 'db',
+    'database': 'project_db',
     'port': "3306"
 }
 
 lecturerConfig = {
-    'host': 'mysql',
+    'host': 'localhost',
     'user': 'lecturer',
     'password': '',
-    'database': 'db',
+    'database': 'project_db',
     'port': "3306"
 }
 
-# Dan's config 
-# rootConfig = {
-#     'host': 'localhost',
-#     'user': 'root',
-#     'password': '',
-#     'database': 'project_db7',
-#     'port': "3307"
-# }
-
 rootConnection = mysql.connector.connect(**rootConfig)
+publicConnection = mysql.connector.connect(**publicConfig)
+studentConnection = mysql.connector.connect(**studentConfig)
+lecturerConnect = mysql.connector.connect(**lecturerConfig)
+adminConnect = mysql.connector.connect(**adminConfig)
 
 print("DB connected")
 

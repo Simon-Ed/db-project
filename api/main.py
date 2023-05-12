@@ -57,7 +57,7 @@ def default_path():
 # show courses 
 @app.route('/view-courses')
 def view_courses():
-    with rootConnection.cursor() as cursor:
+    with publicConnection.cursor() as cursor:
         query = "SELECT * FROM course;" 
         cursor.execute(query)
         courses = cursor.fetchall()
@@ -67,7 +67,7 @@ def view_courses():
 # bookable rooms 
 @app.route('/bookable-rooms')
 def view_bookable_rooms():
-    with rootConnection.cursor() as cursor:
+    with publicConnection.cursor() as cursor:
         query = "SELECT * FROM bookable_rooms;" 
         cursor.execute(query)
         courses = cursor.fetchall()
@@ -78,7 +78,7 @@ def view_bookable_rooms():
 # view staff(teacher) without contact info
 @app.route('/staff')
 def view_teachers():
-    with rootConnection.cursor() as cursor:
+    with publicConnection.cursor() as cursor:
         query = "SELECT university_member.id, teacher.title, university_member.name, university_member.surname, teacher.institute FROM teacher LEFT JOIN university_member ON teacher.university_member = university_member.id;" 
         cursor.execute(query)
         courses = cursor.fetchall()
@@ -97,17 +97,17 @@ def book_room():
     roomType = request.args.get('room_type', default='', type=str) 
     roomId = request.args.get('room_id', default='', type=int) 
 
-    with rootConnection.cursor() as cursor:
+    with studentConnection.cursor() as cursor:
         query = "SELECT `university_member`.`id` FROM university_member WHERE university_member.id=%s;"
         cursor.execute(query , (user, ))
         valid = cursor.fetchone()
         if valid is None:
             return jsonify("user does not have permission to do this")
 
-    with rootConnection.cursor() as cursor:
+    with studentConnection.cursor() as cursor:
         query = "INSERT INTO room_booking( id ,start_time, end_time, room_id, booker, TYPE) VALUES(NULL , %s,  %s,%s,%s, %s);" 
         cursor.execute(query, (start_time, end_time, roomId,user,roomType))
-        rootConnection.commit()
+        studentConnection.commit()
         response = jsonify("successfully added room booking")
     return response
 
@@ -116,14 +116,14 @@ def book_room():
 def view_contact_info():
     user = request.args.get('user', default='', type=int) 
 
-    with rootConnection.cursor() as cursor:
+    with studentConnection.cursor() as cursor:
         query = "SELECT `university_member`.`id` FROM university_member WHERE university_member.id=%s;"
         cursor.execute(query , (user, ))
         valid = cursor.fetchone()
         if valid is None:
             return jsonify("user does not have permission to do this")
 
-    with rootConnection.cursor() as cursor:
+    with studentConnection.cursor() as cursor:
         query = "SELECT * FROM `staff_contact`;" 
         cursor.execute(query)
         staff_contact = cursor.fetchall()
@@ -139,14 +139,14 @@ def changer_course_name():
     course_id = request.args.get('course_id', default='', type=int) 
     new_course_name = request.args.get('new_course_name', default='', type=str) 
 
-    with rootConnection.cursor() as cursor:
+    with lecturerConnect.cursor() as cursor:
         query = "SELECT teacher.university_member FROM teacher WHERE teacher.university_member=%s;"
         cursor.execute(query , (user, ))
         valid = cursor.fetchone()
         if valid is None:
             return jsonify("user does not have permission to do this")
 
-    with rootConnection.cursor() as cursor:
+    with lecturerConnect.cursor() as cursor:
         query = "UPDATE course SET course.name=%s WHERE course.id=%s;" 
         cursor.execute(query, (new_course_name, course_id,))
         rootConnection.commit()
