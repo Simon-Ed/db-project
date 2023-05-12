@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 11, 2023 at 10:17 PM
+-- Generation Time: May 12, 2023 at 10:47 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -114,8 +114,8 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, `start_date`, `end_date`) VALUES
-(1, 'IT2201', 'Database Systems', 50, 11, '2023-09-01', '2023-12-15'),
-(2, 'TDT4102', 'Object-Oriented Programming', 60, 12, '2023-09-01', '2023-12-15'),
+(1, 'IT2201', 'Stats', 50, 11, '2023-09-01', '2023-12-15'),
+(2, 'TDT4102', 'Stats', 60, 12, '2023-09-01', '2023-12-15'),
 (3, 'MAT1100', 'Calculus', 70, 13, '2023-09-01', '2023-12-15'),
 (4, 'DAT320', 'Data Management and Database Systems', 40, 11, '2023-09-01', '2023-12-15'),
 (5, 'TDT4140', 'Software Engineering', 55, 12, '2023-09-01', '2023-12-15'),
@@ -138,7 +138,7 @@ INSERT INTO `course` (`id`, `code`, `name`, `number_of_students`, `teacher_id`, 
 (22, 'INF2200', 'Algorithms and Data Structures', 60, 11, '2023-01-01', '2023-05-31'),
 (23, 'MAT2300', 'Probability Theory', 55, 13, '2023-01-01', '2023-05-31'),
 (24, 'TDT4145', 'Data Modeling, Databases and Database Management Systems', 40, 11, '2023-01-01', '2023-05-31'),
-(25, 'MAT2310', 'Mathematical Statistics', 65, 13, '2023-01-01', '2023-05-31'),
+(25, 'MAT2310', 'Stats', 65, 13, '2023-01-01', '2023-05-31'),
 (26, 'TDT4171', 'Cryptography and Network Security', 55, 12, '2023-01-01', '2023-05-31'),
 (27, 'FYS1120', 'Electromagnetism', 50, 14, '2023-01-01', '2023-05-31'),
 (28, 'STK1100', 'Introduction to Applied Statistics', 70, 15, '2023-01-01', '2023-05-31'),
@@ -530,7 +530,8 @@ INSERT INTO `user` (`id`) VALUES
 (12),
 (13),
 (14),
-(15);
+(15),
+(16);
 
 -- --------------------------------------------------------
 
@@ -587,7 +588,7 @@ CREATE TABLE `user_time_schedule` (
 --
 DROP TABLE IF EXISTS `bookable_rooms`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookable_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`building_id` AS `building_id`, `room`.`room_number` AS `room_number`, `room`.`room_type` AS `room_type`, `room`.`room_size` AS `room_size`, `room`.`floor_level` AS `floor_level`, `room`.`bookable` AS `bookable`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM (`room` left join `building` on(`room`.`building_id` = `building`.`id`)) WHERE `room`.`bookable` = 1111  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookable_rooms`  AS SELECT `room`.`id` AS `id`, `room`.`building_id` AS `building_id`, `room`.`room_number` AS `room_number`, `room`.`room_type` AS `room_type`, `room`.`room_size` AS `room_size`, `room`.`floor_level` AS `floor_level`, `room`.`bookable` AS `bookable`, `building`.`location` AS `location`, `building`.`building_name` AS `building_name` FROM (`room` left join `building` on(`room`.`building_id` = `building`.`id`)) WHERE `room`.`bookable` = 11  ;
 
 -- --------------------------------------------------------
 
@@ -664,7 +665,7 @@ ALTER TABLE `course`
 -- Indexes for table `email`
 --
 ALTER TABLE `email`
-  ADD PRIMARY KEY (`email`,`user_id`),
+  ADD PRIMARY KEY (`email`) USING BTREE,
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -684,7 +685,7 @@ ALTER TABLE `lecture`
 -- Indexes for table `phone`
 --
 ALTER TABLE `phone`
-  ADD PRIMARY KEY (`phone`,`user_id`),
+  ADD PRIMARY KEY (`phone`) USING BTREE,
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -755,7 +756,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `room_booking`
 --
 ALTER TABLE `room_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Constraints for dumped tables
